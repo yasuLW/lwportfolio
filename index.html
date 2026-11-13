@@ -1,0 +1,1859 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LEAN & WAVS — Portfolio Oficial</title>
+  <!-- Favicon & Brand Icons -->
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
+  <meta property="og:image" content="assets/lean_wavs_logo.png">
+  <meta name="theme-color" content="#000000">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600;1,800&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Poppins', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    * {
+      font-family: 'Poppins', sans-serif;
+    }
+    html, body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #07010a;
+      background-image: 
+        radial-gradient(circle at 50% 0%, #300539 0%, transparent 60%),
+        radial-gradient(circle at 10% 40%, #1a0220 0%, transparent 45%),
+        radial-gradient(circle at 90% 80%, #290432 0%, transparent 50%);
+      background-attachment: fixed;
+      color: #ffffff;
+      overflow-x: hidden;
+      max-width: 100vw;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* Ambient noise overlay (Same as Landing) */
+    .noise-bg {
+      position: fixed;
+      inset: 0;
+      background-image: radial-gradient(rgba(255, 58, 252, 0.03) 1px, transparent 0);
+      background-size: 24px 24px;
+      pointer-events: none;
+      z-index: 0;
+    }
+    html {
+      scroll-padding-top: 60px;
+    }
+
+    @keyframes subtlePulseGlow {
+      0%, 100% {
+        box-shadow: 0 0 16px rgba(255, 58, 252, 0.35);
+        border-color: rgba(255, 58, 252, 0.45);
+      }
+      50% {
+        box-shadow: 0 0 28px rgba(255, 58, 252, 0.6);
+        border-color: rgba(255, 58, 252, 0.75);
+      }
+    }
+
+    /* UNIFIED MAGENTA GLOW & HOVER ANIMATION FOR ALL CARDS AND PHOTOS */
+    .magenta-glow-item {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      border: 1px solid rgba(168, 85, 247, 0.35);
+      box-shadow: 0 0 16px rgba(168, 85, 247, 0.15);
+      cursor: pointer;
+      background-color: transparent;
+    }
+
+    .magenta-glow-item:hover {
+      transform: translateY(-4px) scale(1.02);
+      box-shadow: 0 0 35px rgba(255, 58, 252, 0.75), 0 0 12px rgba(255, 58, 252, 0.5);
+      border-color: rgba(255, 58, 252, 0.9);
+    }
+
+    /* Zoom Icon Indicator on Hover */
+    .photo-zoom-container {
+      position: relative;
+    }
+    .photo-zoom-container::after {
+      content: '🔍';
+      position: absolute;
+      bottom: 8px;
+      right: 8px;
+      font-size: 13px;
+      background: rgba(0, 0, 0, 0.7);
+      border: 1px solid rgba(255, 58, 252, 0.55);
+      border-radius: 9999px;
+      width: 28px;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transform: scale(0.8);
+      transition: all 0.25s ease;
+      pointer-events: none;
+      z-index: 10;
+    }
+    .photo-zoom-container:hover::after {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    /* Unified Velvet Plum Link & Pill Button (Non-metallic, matching + INFORMACIÓN cards) */
+    .canva-pill-btn {
+      background: linear-gradient(90deg, #1d0324 0%, #3a0841 25%, #580c62 50%, #3a0841 75%, #1d0324 100%);
+      border: 1px solid rgba(168, 85, 247, 0.35);
+      box-shadow: 0 0 16px rgba(168, 85, 247, 0.15);
+      color: #ffffff;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .canva-pill-btn:hover {
+      background: #8e1586;
+      box-shadow: 0 0 30px rgba(255, 58, 252, 0.7), 0 0 10px rgba(255, 58, 252, 0.4);
+      border-color: rgba(255, 58, 252, 0.9);
+      color: #ffffff;
+      transform: translateY(-2px) scale(1.02);
+    }
+
+    .member-thumb {
+      border: 1.5px solid rgba(168, 85, 247, 0.35);
+      background-color: #121018;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .member-thumb:hover {
+      border-color: rgba(255, 58, 252, 0.7);
+      box-shadow: 0 0 16px rgba(255, 58, 252, 0.35);
+      transform: translateY(-2px);
+    }
+    .member-thumb.thumb-active {
+      border-color: #ff3afc !important;
+      box-shadow: 0 0 24px rgba(255, 58, 252, 0.75) !important;
+      transform: translateY(-2px) scale(1.02);
+    }
+
+    .canva-pill-active {
+      background: #9d178d !important;
+      box-shadow: 0 0 24px rgba(255, 58, 252, 0.75) !important;
+      border-color: #ff3afc !important;
+      color: #ffffff !important;
+      transform: translateY(-2px);
+    }
+
+    /* Header Banner Specific Interactive Animation (Zero outer border window) */
+    .banner-pill-wrapper {
+      position: relative;
+      cursor: default;
+      transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+      filter: drop-shadow(0 0 18px rgba(255, 58, 252, 0.45));
+      border-radius: 9999px;
+    }
+
+    .banner-pill-wrapper:hover {
+      transform: translateY(-4px) scale(1.015);
+      filter: drop-shadow(0 0 38px rgba(255, 58, 252, 0.85)) drop-shadow(0 0 14px rgba(255, 58, 252, 0.6));
+    }
+
+    /* Info Pill Cards for + INFORMACIÓN, Redes Sociales, Stage Plot & Contacto */
+    .canva-info-card {
+      background: linear-gradient(90deg, #1d0324 0%, #3a0841 25%, #580c62 50%, #3a0841 75%, #1d0324 100%);
+      border: 1px solid rgba(168, 85, 247, 0.35);
+      box-shadow: 0 0 16px rgba(168, 85, 247, 0.15);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+    }
+
+    .canva-info-card:hover {
+      background: #8e1586;
+      box-shadow: 0 0 30px rgba(255, 58, 252, 0.7), 0 0 10px rgba(255, 58, 252, 0.4);
+      border-color: rgba(255, 58, 252, 0.9);
+      color: #ffffff;
+      transform: translateY(-2px) scale(1.02);
+    }
+
+    /* Refined Contact Cards: Soft lighting for maximum readability matching pill buttons */
+    .contact-info-card {
+      background: linear-gradient(145deg, #18031e 0%, #2a0732 50%, #18031e 100%);
+      border: 1px solid rgba(255, 58, 252, 0.35);
+      box-shadow: 0 0 12px rgba(255, 58, 252, 0.12);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .contact-info-card:hover {
+      background: #8e1586;
+      border-color: rgba(255, 58, 252, 0.9);
+      box-shadow: 0 0 30px rgba(255, 58, 252, 0.7), 0 0 10px rgba(255, 58, 252, 0.4);
+      transform: translateY(-2px) scale(1.015);
+    }
+
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #07010a; }
+    ::-webkit-scrollbar-thumb { background: #7e1273; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: #ff3afc; }
+  
+    
+    /* ========================================== */
+    /* STAGE PLOT & MATERIAL INTERACTIVE STYLES   */
+        /* ========================================== */
+    /* STAGE PLOT & MATERIAL INTERACTIVE STYLES   */
+    /* ========================================== */
+    .highlight-active {
+      filter: drop-shadow(0 0 16px #ff3afc) drop-shadow(0 0 35px #ff3afc) !important;
+      opacity: 1 !important;
+      transition: all 0.25s ease-out;
+    }
+    .highlight-active rect,
+    .highlight-active circle,
+    .highlight-active polygon {
+      stroke: #ffffff !important;
+      stroke-width: 2.5px !important;
+      filter: drop-shadow(0 0 10px #ff3afc) !important;
+    }
+    .highlight-active text {
+      fill: #ffffff !important;
+      font-weight: 900 !important;
+      filter: drop-shadow(0 0 8px #ff3afc) !important;
+    }
+
+    .artist-active {
+      filter: drop-shadow(0 0 20px #ff3afc) drop-shadow(0 0 40px #ff3afc) !important;
+      transition: all 0.25s ease-out;
+    }
+    .artist-border {
+      transition: all 0.25s ease;
+    }
+    .artist-active .artist-border,
+    .artist-active > circle:first-of-type,
+    .artist-active circle[filter*="subtleGlow"] {
+      stroke: #ffffff !important;
+      stroke-width: 2px !important;
+      filter: drop-shadow(0 0 15px #ff3afc) !important;
+    }
+    .artist-active text {
+      fill: #ffffff !important;
+      font-weight: 900 !important;
+      text-shadow: 0 0 10px #ff3afc;
+    }
+
+    .badge-highlight circle {
+      stroke: #ffffff !important;
+      stroke-width: 3.5px !important;
+      fill: #ff3afc !important;
+      animation: pulseBadgeGlow 0.75s infinite alternate ease-in-out !important;
+    }
+    .badge-highlight text {
+      fill: #ffffff !important;
+      font-weight: 900 !important;
+      filter: drop-shadow(0 0 8px #ffffff) !important;
+    }
+
+    @keyframes pulseBadgeGlow {
+      0% {
+        stroke-width: 2.5px;
+        filter: drop-shadow(0 0 8px #ff3afc) drop-shadow(0 0 16px #ff3afc);
+      }
+      100% {
+        stroke-width: 4.5px;
+        filter: drop-shadow(0 0 18px #ff3afc) drop-shadow(0 0 32px #ffffff);
+      }
+    }
+
+    /* VIBRANT LEGEND ROW HOVER & ACTIVE STATE */
+    .legend-row {
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(18, 18, 24, 0.75);
+    }
+    .legend-row:hover,
+    .legend-row.active {
+      border-color: #ff3afc !important;
+      background: linear-gradient(90deg, rgba(126, 18, 115, 0.85) 0%, rgba(56, 4, 62, 0.95) 100%) !important;
+      box-shadow: 0 0 25px rgba(255, 58, 252, 0.75), inset 0 0 14px rgba(255, 58, 252, 0.4) !important;
+      transform: translateY(-2px) scale(1.02);
+    }
+    .legend-row:hover > span:first-child,
+    .legend-row.active > span:first-child {
+      background: #ffffff !important;
+      color: #7e1273 !important;
+      border-color: #ff3afc !important;
+      box-shadow: 0 0 16px #ff3afc !important;
+      font-weight: 900 !important;
+    }
+    .legend-row:hover > span:last-child,
+    .legend-row.active > span:last-child {
+      color: #ffffff !important;
+      text-shadow: 0 0 12px rgba(255, 58, 252, 0.95);
+    }
+
+    /* CUSTOM FLYING LEAN CUP SCROLLBAR WITH LIQUID TRAIL */
+    html {
+      scrollbar-width: none; /* Firefox */
+      -ms-overflow-style: none; /* IE / Edge */
+    }
+    html::-webkit-scrollbar,
+    body::-webkit-scrollbar {
+      display: none;
+      width: 0px;
+      height: 0px;
+    }
+
+    #lean-scroll-container {
+      position: fixed;
+      right: 0px;
+      top: 56px;
+      bottom: 12px;
+      width: 52px;
+      z-index: 99999;
+      pointer-events: auto;
+      cursor: pointer;
+      user-select: none;
+      -webkit-user-select: none;
+      touch-action: none;
+    }
+
+    /* 3D Spilled Lean Puddle Trail Wrapper */
+    #lean-spill-wrapper {
+      position: absolute;
+      right: 0px;
+      top: 0px;
+      width: 52px;
+      height: 0px;
+      overflow: hidden;
+      pointer-events: none;
+      opacity: 0;
+      z-index: 1;
+      will-change: height;
+    }
+
+    #lean-puddle-img {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 44px;
+      height: 2400px;
+      object-fit: fill;
+      filter: drop-shadow(0 0 4px rgba(255, 58, 252, 0.75)) drop-shadow(0 0 8px rgba(255, 58, 252, 0.4));
+      pointer-events: none;
+    }
+
+    /* Spilling Tipped Double Cup Thumb */
+    #lean-cup-thumb {
+      position: absolute;
+      right: 0px;
+      top: 0;
+      width: 52px;
+      height: 72px;
+      cursor: grab;
+      pointer-events: auto;
+      touch-action: none;
+      user-select: none;
+      -webkit-user-select: none;
+      z-index: 2;
+      transform-origin: 50% 50%;
+      transition: filter 0.2s ease;
+      filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.5)) drop-shadow(0 0 5px rgba(255, 58, 252, 0.7)) drop-shadow(0 0 10px rgba(255, 58, 252, 0.35));
+      will-change: top;
+    }
+
+    #lean-cup-thumb:hover {
+      filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.6)) drop-shadow(0 0 8px rgba(255, 58, 252, 0.85)) drop-shadow(0 0 14px rgba(255, 58, 252, 0.5));
+    }
+
+    #lean-cup-thumb.is-dragging {
+      cursor: grabbing !important;
+      transform: scale(1.08) rotate(4deg);
+      filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.7)) drop-shadow(0 0 10px rgba(255, 58, 252, 0.9)) drop-shadow(0 0 18px rgba(255, 58, 252, 0.6));
+    }
+
+    #lean-cup-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      pointer-events: none;
+      user-select: none;
+      -webkit-user-drag: none;
+      user-drag: none;
+    }
+
+    @media (max-width: 768px) {
+      #lean-scroll-container {
+        display: none !important;
+      }
+    }
+  </style>
+</head>
+<body class="relative text-white antialiased min-h-screen selection:bg-[#ff3afc] selection:text-white pb-10">
+
+  <!-- Ambient noise overlay (Matching Landing) -->
+  <div class="noise-bg"></div>
+
+  <!-- AMBIENT BACKGROUND GLOW EFFECTS (Matching Landing) -->
+  <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+    <!-- Deep dark gradient overlay -->
+    <div class="absolute inset-0 bg-gradient-to-b from-black/85 via-black/75 to-black/95"></div>
+
+    <!-- Radiant neon orbs -->
+    <div class="absolute -top-32 -left-32 w-96 h-96 rounded-full bg-[#ff3afc]/15 blur-[120px]"></div>
+    <div class="absolute top-1/3 -right-32 w-96 h-96 rounded-full bg-[#8e1586]/20 blur-[130px]"></div>
+    <div class="absolute -bottom-32 left-1/4 w-96 h-96 rounded-full bg-[#580c62]/25 blur-[120px]"></div>
+  </div>
+
+  <!-- Top Fixed Quick Booking Nav (Siempre Visible al Hacer Scroll) -->
+  <header class="fixed top-0 left-0 right-0 z-50 bg-[#07010a]/90 backdrop-blur-md border-b border-[#ff3afc]/30 px-3 sm:px-4 py-2 sm:py-2.5">
+    <div class="max-w-2xl mx-auto flex items-center justify-between gap-2">
+      <div class="flex items-center gap-2 shrink-0">
+        <img src="assets/lean_wavs_logo.png" alt="LEAN & WAVS Logo" class="w-6 h-6 sm:w-7 sm:h-7 rounded-full object-cover shrink-0 shadow-[0_0_10px_rgba(255,58,252,0.6)]">
+        <span class="text-[10px] sm:text-xs font-bold tracking-wider text-zinc-300 uppercase">LEAN & WAVS • BOOKING</span>
+      </div>
+      <a href="#contacto" class="text-[10.5px] sm:text-xs font-bold text-white px-2.5 sm:px-4 py-1 sm:py-1.5 rounded-lg canva-pill-btn whitespace-nowrap shrink-0">
+        Contactar Directamente
+      </a>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="relative z-10 max-w-2xl mx-auto px-4 pt-16 sm:pt-20 pb-8 space-y-16">
+
+    <!-- ========================================== -->
+    <!-- PAGE 1: HEADER BANNER                      -->
+    <!-- ========================================== -->
+    <section class="space-y-8">
+                  <!-- Click-to-Zoom Banner -->
+      <div class="banner-pill-wrapper w-full group">
+        <img src="assets/header_banner.png" alt="LEAN & WAVS Contrataciones y Eventos" class="w-full h-auto block transition-transform duration-300 group-hover:scale-[1.015]">
+      </div>
+
+      <!-- INTEGRANTES -->
+      <div class="space-y-4">
+        <div class="text-center space-y-1">
+          <h2 class="text-3xl sm:text-4xl md:text-5xl font-black text-white tracking-wider uppercase">INTEGRANTES</h2>
+          <p class="text-xs font-bold text-zinc-300 tracking-widest uppercase">-HAZ CLIC PARA VER-</p>
+        </div>
+
+        <!-- Pill Buttons -->
+        <div class="grid grid-cols-5 gap-1.5 sm:gap-2.5">
+          <button onclick="selectMember('yasu')" id="pill-yasu" class="canva-pill-btn canva-pill-active py-2 px-1 rounded-2xl text-center text-xs sm:text-sm font-black text-white tracking-wide">
+            YASU
+          </button>
+          <button onclick="selectMember('dstro')" id="pill-dstro" class="canva-pill-btn py-2 px-1 rounded-2xl text-center text-xs sm:text-sm font-black text-white tracking-wide">
+            DSTRO
+          </button>
+          <button onclick="selectMember('delvallez')" id="pill-delvallez" class="canva-pill-btn py-2 px-1 rounded-2xl text-center text-xs sm:text-sm font-black text-white tracking-wide">
+            DELVALLEZ
+          </button>
+          <button onclick="selectMember('apolo')" id="pill-apolo" class="canva-pill-btn py-2 px-1 rounded-2xl text-center text-xs sm:text-sm font-black text-white tracking-wide">
+            APOLO
+          </button>
+          <button onclick="selectMember('seven')" id="pill-seven" class="canva-pill-btn py-2 px-1 rounded-2xl text-center text-xs sm:text-sm font-black text-white tracking-wide">
+            SEVEN
+          </button>
+        </div>
+
+        <!-- 5 Member Photos: HIGH-RES ORIGINALS, 1:1 ASPECT RATIO, FULL HD LIGHTBOX -->
+        <div class="grid grid-cols-5 gap-1.5 sm:gap-2.5">
+          <!-- YASU -->
+          <div onclick="selectMember('yasu'); openImageModal('assets/member_yasu.jpg')" class="member-item magenta-glow-item photo-zoom-container aspect-square w-full rounded-2xl overflow-hidden group">
+            <img src="assets/member_yasu.jpg" alt="YASU" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105">
+          </div>
+
+          <!-- DSTRO -->
+          <div onclick="selectMember('dstro'); openImageModal('assets/member_dstro.jpg')" class="member-item magenta-glow-item photo-zoom-container aspect-square w-full rounded-2xl overflow-hidden group">
+            <img src="assets/member_dstro.jpg" alt="DSTRO" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105">
+          </div>
+
+          <!-- DELVALLEZ -->
+          <div onclick="selectMember('delvallez'); openImageModal('assets/member_delvallez.jpg')" class="member-item magenta-glow-item photo-zoom-container aspect-square w-full rounded-2xl overflow-hidden group">
+            <img src="assets/member_delvallez.jpg" alt="DELVALLEZ" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105">
+          </div>
+
+          <!-- APOLO -->
+          <div onclick="selectMember('apolo'); openImageModal('assets/member_apolo.jpg')" class="member-item magenta-glow-item photo-zoom-container aspect-square w-full rounded-2xl overflow-hidden group">
+            <img src="assets/member_apolo.jpg" alt="APOLO" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105">
+          </div>
+
+          <!-- SEVEN -->
+          <div onclick="selectMember('seven'); openImageModal('assets/member_seven.jpg')" class="member-item magenta-glow-item photo-zoom-container aspect-square w-full rounded-2xl overflow-hidden group">
+            <img src="assets/member_seven.jpg" alt="SEVEN" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105">
+          </div>
+        </div>
+
+        <!-- Member Spotlight with Instagram Link -->
+        <div id="member-spotlight" class="p-5 rounded-2xl bg-zinc-950/90 border border-[#c0219c]/60 shadow-[0_0_20px_rgba(192,33,156,0.2)] space-y-2 transition-all">
+          <div class="flex items-center justify-between">
+            <span id="mem-name" class="text-sm sm:text-base font-black uppercase tracking-wider text-white">YASU</span>
+            <a id="mem-ig-link" href="https://www.instagram.com/yasu.lw/" target="_blank" rel="noopener noreferrer" class="text-xs sm:text-sm font-bold text-[#ff3afc] flex items-center gap-1 hover:text-white transition-colors group">
+              <span class="underline">@yasu.lw</span>
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 shrink-0 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="7" y1="17" x2="17" y2="7"></line>
+                <polyline points="7 7 17 7 17 17"></polyline>
+              </svg>
+            </a>
+          </div>
+          <div id="mem-tag" class="text-xs sm:text-sm font-bold text-fuchsia-300">Vocalista, Compositor, Productor</div>
+        </div>
+      </div>
+
+      <!-- BIO (Page 1 Layout) -->
+      <div class="space-y-6 pt-4">
+        <div class="text-left">
+          <h2 class="text-3xl sm:text-4xl md:text-5xl font-black text-white tracking-wider uppercase">BIO</h2>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 items-stretch">
+          <!-- Text Column (Left) -->
+          <div class="flex flex-col justify-center text-white font-medium text-sm sm:text-base md:text-[1.05rem] leading-relaxed text-justify">
+            <p>
+              <strong class="font-extrabold text-white">LEAN &amp; WAVS</strong> es un colectivo y sello discográfico de música urbana formado en 2023 por cinco estudiantes de <strong class="font-extrabold text-white">Producción Musical</strong>. Con sus primeros lanzamientos, como el sencillo <strong class="font-extrabold text-white">“LOUVRE”</strong>, captaron la atención de la prensa local (<em>Gasteiz Hoy</em>) mediante una colaboración con el <strong class="font-extrabold text-white">Museo de Bellas Artes de Álava</strong> para la producción de su obra audiovisual.
+            </p>
+          </div>
+          <!-- Bio Photo: Cleanly Framed, Symmetrical 50/50 -->
+          <div class="flex items-center justify-center">
+            <div onclick="openImageModal('assets/bio_photo.jpg')" class="magenta-glow-item photo-zoom-container rounded-3xl overflow-hidden w-full group aspect-[4/4.2]" style="aspect-ratio: 4 / 4.2;">
+              <img src="assets/bio_photo.jpg" alt="LEAN & WAVS Bio Directo" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" style="object-position: 56% center;">
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- PAGE 2: CONCIERTOS (CLEAN NATIVE FRAMING)  -->
+    <!-- ========================================== -->
+    <section class="space-y-6">
+      <!-- Full-Width Top Street Photo with Animation + Zoom -->
+      <div onclick="openImageModal('assets/photo_street.jpg')" class="magenta-glow-item photo-zoom-container rounded-3xl overflow-hidden w-full group">
+        <img src="assets/photo_street.jpg" alt="LEAN & WAVS Street Photo" class="w-full h-auto block transition-transform duration-300 group-hover:scale-[1.02]">
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 items-stretch">
+        <!-- Left: Two Stacked Photos with Animation + Zoom (Matching Canva proportions) -->
+        <div class="flex flex-col gap-4 justify-between">
+          <div onclick="openImageModal('assets/photo_anabel_lee.jpg')" class="magenta-glow-item photo-zoom-container rounded-2xl overflow-hidden w-full group aspect-[4/4.5]" style="aspect-ratio: 873/978;">
+            <img src="assets/photo_anabel_lee.jpg" alt="Concierto Anabel Lee" class="w-full h-full object-cover object-center transition-transform duration-300 group-hover:scale-105">
+          </div>
+          <div onclick="openImageModal('assets/photo_live_stage.jpg')" class="magenta-glow-item photo-zoom-container rounded-2xl overflow-hidden w-full group aspect-[3/2]" style="aspect-ratio: 1024/682;">
+            <img src="assets/photo_live_stage.jpg" alt="Concierto Live Stage" class="w-full h-full object-cover object-center transition-transform duration-300 group-hover:scale-105">
+          </div>
+        </div>
+
+        <!-- Right: Text Perfectly Distributed to Match Left Height -->
+        <div class="flex flex-col justify-between py-1 space-y-4 md:space-y-0 text-white font-medium text-sm sm:text-base leading-relaxed text-justify">
+          <p class="leading-relaxed">
+            Comenzaron a ofrecer conciertos a finales de 2024, integrando el circuito de salas de referencia como <span class="text-white font-extrabold italic">Sala El Sol (Madrid)</span>, <span class="text-white font-extrabold italic">KUBIK</span> y <span class="text-white font-extrabold italic">GLOW (Vitoria-Gasteiz)</span>, <span class="text-white font-extrabold italic">Stereo Rock &amp; Roll (Logroño)</span>.
+          </p>
+          <p class="leading-relaxed">
+            Durante 2025, actuaron en las festividades de <span class="text-white font-extrabold italic">Loiola y Amara (San Sebastián)</span>, donde destacaron por su energía escénica y la capacidad de movilizar a audiencias emergentes que aún no los conocían.
+          </p>
+          <p class="leading-relaxed">
+            Desde su creación, el colectivo colabora con marcas e instituciones locales, con participación activa en desfiles de moda: <span class="text-white font-extrabold italic">Re-Viste tu Mente</span>, <span class="text-white font-extrabold italic">Palacio Europa</span> y <span class="text-white font-extrabold italic">F*** FAST FASHION (Vitoria-Gasteiz)</span>, pop-up stores: <span class="text-white font-extrabold italic">The Goood People (Bilbao)</span> y diversos eventos culturales.
+          </p>
+        </div>
+      </div>
+
+      <!-- Conclusión de la Bio / Trayectoria & Referencias (Subido de lugar, directamente tras los conciertos) -->
+      <div class="space-y-2.5 !mt-3 sm:!mt-4 text-justify">
+        <p class="text-sm sm:text-base font-medium text-white leading-relaxed">
+          En una industria altamente competitiva, el colectivo ofrece una propuesta que traslada la estética underground a un formato profesional y de alto impacto.
+        </p>
+        <p class="text-sm font-bold text-zinc-300">
+          <span class="text-white font-extrabold">Artistas de referencia:</span> Duki, Travis Scott, Sticky M.A., Playboi Carti, Yung Beef, mvrk.
+        </p>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- PAGE 3: FORMATO DEL SHOW                   -->
+    <!-- ========================================== -->
+    <section class="space-y-6">
+      <div class="text-center">
+        <h2 class="text-3xl sm:text-4xl md:text-5xl font-black text-white tracking-wider uppercase">FORMATO DEL SHOW</h2>
+      </div>
+
+      <div class="space-y-4 text-sm sm:text-base font-medium text-white leading-relaxed text-justify">
+        <p>
+          <strong class="font-extrabold">LEAN & WAVS</strong> presenta un espectáculo de música urbana en formato <strong class="font-extrabold">Live PA / DJ Set</strong>. La actuación tiene una duración ajustable de 20 a 60 minutos con un repertorio dinámico sin interrupciones.
+        </p>
+        <p>
+          <strong class="font-extrabold">En el escenario (5 personas):</strong> La ejecución recae sobre 4 vocalistas principales apoyados por 1 DJ/Técnico. Todo el espectáculo es operado internamente mediante pistas y secuencias disparadas desde nuestro propio DAW, garantizando fidelidad de estudio y un control total sobre el ritmo del evento.
+        </p>
+      </div>
+
+      <div class="p-5 rounded-2xl bg-zinc-950/90 border border-[#c0219c]/60 shadow-[0_0_20px_rgba(192,33,156,0.2)] space-y-3.5 transition-all">
+        <div class="flex items-center justify-between">
+          <span class="text-sm sm:text-base font-black uppercase tracking-wider text-white">SELECTOR DE DURACIÓN</span>
+          <span id="slider-display-time" class="bg-black px-3 py-1 rounded-lg border border-purple-800/60 text-white font-black text-xs sm:text-sm">40 MIN</span>
+        </div>
+        <!-- Custom Slider Track & Buttons Container -->
+        <div class="px-5 sm:px-6 py-2 select-none">
+          <!-- Relative Track Area -->
+          <div class="relative w-full h-8 flex items-center">
+            <!-- Visual Track Line -->
+            <div class="w-full h-2 bg-zinc-800 rounded-full relative overflow-hidden">
+              <!-- Visual Step Dots inside the track (behind the fill) -->
+              <div id="step-tick-0" class="absolute left-1 top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-zinc-600 transition-opacity duration-150 pointer-events-none" style="opacity: 0;"></div>
+              <div id="step-tick-1" class="absolute left-[25%] top-1/2 -translate-y-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-zinc-600 transition-opacity duration-150 pointer-events-none" style="opacity: 0;"></div>
+              <div id="step-tick-2" class="absolute left-[50%] top-1/2 -translate-y-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-zinc-600 transition-opacity duration-150 pointer-events-none" style="opacity: 0;"></div>
+              <div id="step-tick-3" class="absolute left-[75%] top-1/2 -translate-y-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-zinc-600 transition-opacity duration-150 pointer-events-none" style="opacity: 1;"></div>
+              <div id="step-tick-4" class="absolute right-1 top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-zinc-600 transition-opacity duration-150 pointer-events-none" style="opacity: 1;"></div>
+
+              <!-- Filled Progress Bar (slides ON TOP of dots, covering them!) -->
+              <div id="slider-fill" class="h-full bg-gradient-to-r from-purple-800 to-[#ff3afc] transition-all duration-150 relative z-10" style="width: 50%;"></div>
+            </div>
+
+            <!-- The Pink Thumb Dot (El Punto) -->
+            <div id="slider-thumb-dot" class="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-5 h-5 bg-[#ff3afc] rounded-full shadow-[0_0_14px_rgba(255,58,252,0.95)] pointer-events-none transition-all duration-150 z-20" style="left: 50%;"></div>
+
+            <!-- Range Input (invisible overlay for native drag & accessibility) -->
+            <input type="range" min="0" max="4" step="1" value="2" id="show-duration-slider" oninput="updateShowDuration(this.value)" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-30">
+          </div>
+
+          <!-- Labels exactly matching the thumb positions (0%, 25%, 50%, 75%, 100%) -->
+          <div class="relative w-full h-6 pt-1">
+            <button type="button" onclick="setDurationIndex(0)" id="step-btn-0" class="absolute top-0 -translate-x-1/2 text-xs font-bold text-zinc-400 hover:text-white transition-all cursor-pointer whitespace-nowrap" style="left: 0%;">20 MIN</button>
+            <button type="button" onclick="setDurationIndex(1)" id="step-btn-1" class="absolute top-0 -translate-x-1/2 text-xs font-bold text-zinc-400 hover:text-white transition-all cursor-pointer whitespace-nowrap" style="left: 25%;">30 MIN</button>
+            <button type="button" onclick="setDurationIndex(2)" id="step-btn-2" class="absolute top-0 -translate-x-1/2 text-xs font-black text-white scale-110 drop-shadow-[0_0_8px_rgba(255,255,255,0.7)] transition-all cursor-pointer whitespace-nowrap" style="left: 50%;">40 MIN</button>
+            <button type="button" onclick="setDurationIndex(3)" id="step-btn-3" class="absolute top-0 -translate-x-1/2 text-xs font-bold text-zinc-400 hover:text-white transition-all cursor-pointer whitespace-nowrap" style="left: 75%;">60 MIN</button>
+            <button type="button" onclick="setDurationIndex(4)" id="step-btn-4" class="absolute top-0 -translate-x-1/2 text-xs font-bold text-zinc-400 hover:text-white transition-all cursor-pointer whitespace-nowrap" style="left: 100%;">90 MIN</button>
+          </div>
+        </div>
+        <div id="show-box-desc" class="text-xs sm:text-sm text-zinc-200 leading-relaxed pt-1">
+          <strong class="text-fuchsia-300 font-bold" id="show-box-title">Show Sala Estándar (40 Minutos):</strong> <span id="show-box-text">Formato estándar para salas de conciertos y festivales. Recorrido equilibrado por todo el repertorio oficial con rotación de vocalistas y pogo multitudinario.</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- PAGES 3 & 4: RIDER TÉCNICO & STAGE PLOT    -->
+    <!-- ========================================== -->
+    <section class="space-y-6">
+      <div class="text-center">
+        <h2 class="text-[22px] sm:text-4xl md:text-[43px] font-black text-white tracking-wider uppercase whitespace-nowrap">RIDER TÉCNICO (RESUMEN)</h2>
+      </div>
+
+      <div class="flex justify-center gap-4">
+        <button onclick="switchRider(1)" id="tab-btn-1" class="canva-pill-btn canva-pill-active px-6 py-2 rounded-2xl text-xs sm:text-sm font-black text-white uppercase tracking-wider">
+          OPCIÓN 1
+        </button>
+        <button onclick="switchRider(2)" id="tab-btn-2" class="canva-pill-btn px-6 py-2 rounded-2xl text-xs sm:text-sm font-black text-white uppercase tracking-wider">
+          OPCIÓN 2
+        </button>
+      </div>
+
+      <div id="rider-content" class="p-5 rounded-2xl bg-zinc-950/90 border border-[#c0219c]/60 shadow-[0_0_20px_rgba(192,33,156,0.2)] space-y-3 transition-all duration-300">
+        <div id="rider-op1" class="space-y-3">
+          <div class="text-sm sm:text-base font-black uppercase tracking-wider text-white">OPCIÓN 1</div>
+          <ul class="space-y-3 text-xs sm:text-sm text-zinc-200 leading-relaxed">
+            <li class="flex items-start gap-2.5">
+              <span class="text-[#ff3afc] font-bold select-none text-base leading-tight">•</span>
+              <span><strong class="text-fuchsia-300 font-bold">Aportado por los artistas &gt;</strong> Ordenador, interfaz de audio (2 entradas XLR y 2 salidas estéreo), sistema de In&#8209;Ear, 2 micrófonos inalámbricos y mesa de DJ.</span>
+            </li>
+            <li class="flex items-start gap-2.5">
+              <span class="text-[#ff3afc] font-bold select-none text-base leading-tight">•</span>
+              <span><strong class="text-fuchsia-300 font-bold">Requerimientos de la sala &gt;</strong> Sistema de PA adecuado al aforo, pantalla LED trasera, iluminación, 2 máquinas de humo y tomas de corriente (220V/230V) a un lado del DJ</span>
+            </li>
+          </ul>
+        </div>
+
+        <div id="rider-op2" class="space-y-3 hidden">
+          <div class="text-sm sm:text-base font-black uppercase tracking-wider text-white">OPCIÓN 2</div>
+          <ul class="space-y-3 text-xs sm:text-sm text-zinc-200 leading-relaxed">
+            <li class="flex items-start gap-2.5">
+              <span class="text-[#ff3afc] font-bold select-none text-base leading-tight">•</span>
+              <span><strong class="text-fuchsia-300 font-bold">Aportado por los artistas &gt;</strong> Ordenador, sistema de In&#8209;Ear y mesa de DJ</span>
+            </li>
+            <li class="flex items-start gap-2.5">
+              <span class="text-[#ff3afc] font-bold select-none text-base leading-tight">•</span>
+              <span><strong class="text-fuchsia-300 font-bold">Requerimientos de la sala &gt;</strong> Interfaz de audio (mínimo 2 entradas XLR y 2 salidas estéreo), mínimo 2 micrófonos inalámbricos de estándar profesional, sistema de PA adecuado al aforo, pantalla LED trasera, iluminación, máquina de humo y tomas de corriente (220V/230V) a un lado del DJ.</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- STAGE PLOT HEADER -->
+      <div class="text-center pt-6">
+        <h2 class="text-3xl sm:text-4xl md:text-5xl font-black text-white tracking-wider uppercase">STAGE PLOT</h2>
+      </div>
+
+      <!-- INLINE INTERACTIVE STAGE PLOT & MATERIALS LIST (Expanded container for clear legibility) -->
+      <div class="w-full space-y-4 pt-2">
+        
+        <!-- Active Tooltip HUD Indicator -->
+        <div id="hud-bar" class="mb-3 px-6 py-2.5 rounded-2xl bg-black/90 border border-[#c0219c]/60 shadow-[0_0_20px_rgba(192,33,156,0.2)] flex items-center justify-center text-sm sm:text-base transition-all shadow-md">
+          <span id="hud-text" class="font-black text-zinc-100 truncate">Haz hover en el escenario o en la lista de material para interactuar.</span>
+        </div>
+
+        <!-- SVG Stage Plot Graphic (Full Width, Free from Outer Box) -->
+        <div class="w-full">
+
+          <!-- SVG Stage Plot Graphic -->
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="69 4 762 610" class="w-full h-auto select-none font-sans" id="stage-svg" style="font-family: 'Poppins', sans-serif;">
+            <defs>
+              <!-- Neon Glow Filters -->
+              <filter id="neonGlow" x="-30%" y="-30%" width="160%" height="160%">
+                <feGaussianBlur stdDeviation="6" result="blur" />
+                <feMerge>
+                  <feMergeNode in="blur" />
+                  <feMergeNode in="blur" />
+                  <feMergeNode in="SourceGraphic" />
+                </feMerge>
+              </filter>
+              <filter id="subtleGlow" x="-20%" y="-20%" width="140%" height="140%">
+                <feGaussianBlur stdDeviation="3" result="blur" />
+                <feMerge>
+                  <feMergeNode in="blur" />
+                  <feMergeNode in="SourceGraphic" />
+                </feMerge>
+              </filter>
+
+              <!-- Gradients -->
+              <linearGradient id="ledGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#1f0426" />
+                <stop offset="30%" stop-color="#5c0d65" />
+                <stop offset="50%" stop-color="#ff3afc" />
+                <stop offset="70%" stop-color="#5c0d65" />
+                <stop offset="100%" stop-color="#1f0426" />
+              </linearGradient>
+
+              <linearGradient id="tableGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="#181024" />
+                <stop offset="100%" stop-color="#0a0612" />
+              </linearGradient>
+
+              <linearGradient id="moduleGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="#1c142b" />
+                <stop offset="100%" stop-color="#100b1a" />
+              </linearGradient>
+
+              <!-- Member Image Clip Paths (Square with rounded corners, rx=12) -->
+              <clipPath id="clipSeven"><rect x="412" y="110" width="76" height="76" rx="12" /></clipPath>
+              <clipPath id="clipYasu"><rect x="142" y="422" width="76" height="76" rx="12" /></clipPath>
+              <clipPath id="clipDstro"><rect x="322" y="422" width="76" height="76" rx="12" /></clipPath>
+              <clipPath id="clipDelvallez"><rect x="502" y="422" width="76" height="76" rx="12" /></clipPath>
+              <clipPath id="clipApolo"><rect x="682" y="422" width="76" height="76" rx="12" /></clipPath>
+            </defs>
+
+            <!-- Orthogonal Stage Floor (Top-Down Blueprint View / Cuadrado Visto de Arriba) -->
+            <rect x="70" y="86" width="760" height="464" rx="14" fill="#0a0812" stroke="rgba(192, 33, 156, 0.6)" stroke-width="1.6" />
+
+            <!-- ITEM 9: PANTALLA LED (Backdrop Wall Screen - Enlarged, Solid No Dashed Lines, Badge Cleared Above) -->
+            <g id="plot-elem-9" class="cursor-pointer transition-all duration-300" onmouseenter="highlightItem(9)" onmouseleave="unhighlightItem()">
+              <!-- Badge [9] Placed Clearly Above Box Border (Zero Clipping, Zero Border Intersection) -->
+              <g id="badge-icon-9" transform="translate(450, 18)">
+                <circle cx="0" cy="0" r="13" fill="#09090b" stroke="#a855f7" stroke-width="2.2" filter="url(#subtleGlow)" />
+                <text x="0" y="4.5" text-anchor="middle" fill="#d8b4fe" font-weight="900" font-size="12" font-family="Poppins, sans-serif">9</text>
+              </g>
+
+              <!-- LED Screen Box (Matching Audiencia Aesthetic: Pill Shape, Dark Fill, Attenuated Border & Light Purple Text) -->
+              <rect x="115" y="32" width="670" height="46" rx="23" fill="#09090b" stroke="rgba(192, 33, 156, 0.6)" stroke-width="1.6" />
+              <text x="450" y="61" text-anchor="middle" fill="#f0abfc" font-weight="900" font-size="16.5" letter-spacing="4.5" font-family="Poppins, sans-serif">
+                PANTALLA LED (FONDO)
+              </text>
+            </g>
+
+            <!-- ITEM 10: MÁQUINAS DE HUMO (Left & Right Stage Wings) -->
+            <!-- Left Smoke Machine -->
+            <g id="plot-elem-10-l" class="cursor-pointer transition-all duration-300" onmouseenter="highlightItem(10)" onmouseleave="unhighlightItem()">
+              <rect x="78" y="250" width="46" height="68" rx="8" fill="#18181b" stroke="#8b5cf6" stroke-width="2" />
+              <circle cx="101" cy="284" r="8" fill="#27272a" stroke="#ff3afc" stroke-width="1.5" />
+              <circle cx="101" cy="284" r="3.5" fill="#ff3afc" />
+              <polygon points="124,274 130,280 130,288 124,294" fill="#71717a" stroke="#ff3afc" stroke-width="1.5" />
+              <g id="badge-icon-10-l" transform="translate(101, 236)">
+                <circle cx="0" cy="0" r="12" fill="#09090b" stroke="#a855f7" stroke-width="2" />
+                <text x="0" y="4" text-anchor="middle" fill="#d8b4fe" font-weight="900" font-size="11" font-family="Poppins, sans-serif">10</text>
+              </g>
+              <text x="101" y="335" text-anchor="middle" fill="#ffffff" font-size="12" font-weight="900" letter-spacing="1.5" font-family="Poppins, sans-serif">HUMO</text>
+            </g>
+
+            <!-- Right Smoke Machine -->
+            <g id="plot-elem-10-r" class="cursor-pointer transition-all duration-300" onmouseenter="highlightItem(10)" onmouseleave="unhighlightItem()">
+              <rect x="776" y="250" width="46" height="68" rx="8" fill="#18181b" stroke="#8b5cf6" stroke-width="2" />
+              <circle cx="799" cy="284" r="8" fill="#27272a" stroke="#ff3afc" stroke-width="1.5" />
+              <circle cx="799" cy="284" r="3.5" fill="#ff3afc" />
+              <polygon points="776,274 770,280 770,288 776,294" fill="#71717a" stroke="#ff3afc" stroke-width="1.5" />
+              <g id="badge-icon-10-r" transform="translate(799, 236)">
+                <circle cx="0" cy="0" r="12" fill="#09090b" stroke="#a855f7" stroke-width="2" />
+                <text x="0" y="4" text-anchor="middle" fill="#d8b4fe" font-weight="900" font-size="11" font-family="Poppins, sans-serif">10</text>
+              </g>
+              <text x="799" y="335" text-anchor="middle" fill="#ffffff" font-size="12" font-weight="900" letter-spacing="1.5" font-family="Poppins, sans-serif">HUMO</text>
+            </g>
+
+            <!-- ======================================================== -->
+            <!-- ARTIST 1: SEVEN (DJ / Control DAW & Audio)                -->
+            <!-- EXACT SAME SIZE AS VOCALISTS: r=38, glow=45, font-size=20 -->
+            <!-- ======================================================== -->
+            <g id="performer-seven" class="cursor-pointer transition-all duration-300" onmouseenter="highlightSeven()" onmouseleave="unhighlightItem()">
+              <!-- Avatar Photo -->
+              <image href="assets/member_seven.jpg" x="412" y="110" width="76" height="76" clip-path="url(#clipSeven)" preserveAspectRatio="xMidYMid slice" />
+              
+              <!-- Fine Square Border -->
+              <rect class="artist-border" x="412" y="110" width="76" height="76" rx="12" fill="none" stroke="rgba(168, 85, 247, 0.6)" stroke-width="1.2" />
+
+              <!-- Artist Name (Same font-size=20 as other artists) -->
+              <text x="450" y="202" text-anchor="middle" fill="#ffffff" font-weight="900" font-size="20" letter-spacing="2.5" font-family="Poppins, sans-serif">SEVEN</text>
+            </g>
+
+            <!-- ======================================================== -->
+            <!-- DJ BOOTH & MATERIAL [1, 2, 3, 4, 5, 8]                   -->
+            <!-- ALL 6 MODULES HAVE IDENTICAL SIZE: width=114, height=52  -->
+            <!-- ======================================================== -->
+            <g id="dj-booth-group">
+              <!-- DJ Desk Base -->
+              <rect x="263" y="232" width="374" height="128" rx="12" fill="url(#tableGrad)" stroke="rgba(168, 85, 247, 0.45)" stroke-width="1.8" filter="url(#subtleGlow)" />
+
+              <!-- ROW 1 (y=240): Modules [3], [2], [1] -->
+
+              <!-- MODULE 3: ORDENADOR DAW (x=273) -->
+              <g id="plot-elem-3" class="cursor-pointer transition-all duration-300" onmouseenter="highlightItem(3)" onmouseleave="unhighlightItem()" transform="translate(273, 240)">
+                <rect x="0" y="0" width="114" height="52" rx="8" fill="url(#moduleGrad)" stroke="rgba(168, 85, 247, 0.4)" stroke-width="1.5" />
+                <!-- Badge 3 -->
+                <g id="badge-icon-3" transform="translate(14, 14)">
+                  <circle cx="0" cy="0" r="10" fill="#09090b" stroke="#a855f7" stroke-width="1.8" />
+                  <text x="0" y="3.5" text-anchor="middle" fill="#d8b4fe" font-weight="900" font-size="10.5" font-family="Poppins, sans-serif">3</text>
+                </g>
+                <!-- Laptop / Waveform Vector Icon -->
+                <g transform="translate(64, 6)">
+                  <rect x="2" y="2" width="22" height="13" rx="1.5" fill="#1e1b2e" stroke="#ff3afc" stroke-width="1" />
+                  <line x1="0" y1="16" x2="26" y2="16" stroke="#71717a" stroke-width="1.5" />
+                  <path d="M 4 8 L 7 6 L 10 11 L 13 4 L 16 12 L 19 7 L 22 9" fill="none" stroke="#ff3afc" stroke-width="1.2" />
+                </g>
+                <!-- Label -->
+                <text x="57" y="44" text-anchor="middle" fill="#ffffff" font-weight="800" font-size="11" letter-spacing="0.8" font-family="Poppins, sans-serif">DAW / PC</text>
+              </g>
+
+              <!-- MODULE 2: MESA DE DJ (x=393) -->
+              <g id="plot-elem-2" class="cursor-pointer transition-all duration-300" onmouseenter="highlightItem(2)" onmouseleave="unhighlightItem()" transform="translate(393, 240)">
+                <rect x="0" y="0" width="114" height="52" rx="8" fill="url(#moduleGrad)" stroke="rgba(168, 85, 247, 0.4)" stroke-width="1.5" />
+                <!-- Badge 2 -->
+                <g id="badge-icon-2" transform="translate(14, 14)">
+                  <circle cx="0" cy="0" r="10" fill="#09090b" stroke="#a855f7" stroke-width="1.8" />
+                  <text x="0" y="3.5" text-anchor="middle" fill="#d8b4fe" font-weight="900" font-size="10.5" font-family="Poppins, sans-serif">2</text>
+                </g>
+                <!-- DJ Mixer Turntables Vector Icon -->
+                <g transform="translate(64, 6)">
+                  <rect x="0" y="1" width="28" height="15" rx="2" fill="#1e1b2e" stroke="#ff3afc" stroke-width="1" />
+                  <circle cx="6.5" cy="8.5" r="4.5" fill="#09090b" stroke="#ff3afc" stroke-width="1" />
+                  <circle cx="21.5" cy="8.5" r="4.5" fill="#09090b" stroke="#ff3afc" stroke-width="1" />
+                  <line x1="14" y1="5" x2="14" y2="12" stroke="#ff3afc" stroke-width="1" />
+                </g>
+                <!-- Label -->
+                <text x="57" y="44" text-anchor="middle" fill="#ffffff" font-weight="800" font-size="11" letter-spacing="0.8" font-family="Poppins, sans-serif">MESA DE DJ</text>
+              </g>
+
+              <!-- MODULE 1: INTERFAZ DE AUDIO (x=513) -->
+              <g id="plot-elem-1" class="cursor-pointer transition-all duration-300" onmouseenter="highlightItem(1)" onmouseleave="unhighlightItem()" transform="translate(513, 240)">
+                <rect x="0" y="0" width="114" height="52" rx="8" fill="url(#moduleGrad)" stroke="rgba(168, 85, 247, 0.4)" stroke-width="1.5" />
+                <!-- Badge 1 -->
+                <g id="badge-icon-1" transform="translate(14, 14)">
+                  <circle cx="0" cy="0" r="10" fill="#09090b" stroke="#a855f7" stroke-width="1.8" />
+                  <text x="0" y="3.5" text-anchor="middle" fill="#d8b4fe" font-weight="900" font-size="10.5" font-family="Poppins, sans-serif">1</text>
+                </g>
+                <!-- Audio Interface Vector Icon -->
+                <g transform="translate(64, 6)">
+                  <rect x="0" y="1" width="28" height="15" rx="2" fill="#1e1b2e" stroke="#ff3afc" stroke-width="1" />
+                  <circle cx="7" cy="8.5" r="3.5" fill="#09090b" stroke="#ff3afc" stroke-width="1" />
+                  <circle cx="16" cy="8.5" r="3.5" fill="#09090b" stroke="#ff3afc" stroke-width="1" />
+                  <circle cx="24" cy="6" r="1" fill="#10b981" />
+                  <circle cx="24" cy="9" r="1" fill="#fbbf24" />
+                  <circle cx="24" cy="12" r="1" fill="#f43f5e" />
+                </g>
+                <!-- Label -->
+                <text x="57" y="44" text-anchor="middle" fill="#ffffff" font-weight="800" font-size="11" letter-spacing="0.8" font-family="Poppins, sans-serif">INTERFAZ</text>
+              </g>
+
+              <!-- ROW 2 (y=300): Modules [4], [5], [8] -->
+
+              <!-- MODULE 4: RECEPTOR MIC (x=273) -->
+              <g id="plot-elem-4" class="cursor-pointer transition-all duration-300" onmouseenter="highlightItem(4)" onmouseleave="unhighlightItem()" transform="translate(273, 300)">
+                <rect x="0" y="0" width="114" height="52" rx="8" fill="url(#moduleGrad)" stroke="rgba(168, 85, 247, 0.4)" stroke-width="1.5" />
+                <!-- Badge 4 -->
+                <g id="badge-icon-4" transform="translate(14, 14)">
+                  <circle cx="0" cy="0" r="10" fill="#09090b" stroke="#a855f7" stroke-width="1.8" />
+                  <text x="0" y="3.5" text-anchor="middle" fill="#d8b4fe" font-weight="900" font-size="10.5" font-family="Poppins, sans-serif">4</text>
+                </g>
+                <!-- Receiver Rack Vector Icon -->
+                <g transform="translate(64, 6)">
+                  <rect x="0" y="2" width="28" height="14" rx="2" fill="#1e1b2e" stroke="#ff3afc" stroke-width="1" />
+                  <line x1="3" y1="2" x2="1" y2="-3" stroke="#ff3afc" stroke-width="1.2" />
+                  <line x1="25" y1="2" x2="27" y2="-3" stroke="#ff3afc" stroke-width="1.2" />
+                  <rect x="7" y="6" width="14" height="6" rx="1" fill="#09090b" />
+                  <line x1="9" y1="9" x2="19" y2="9" stroke="#10b981" stroke-width="1.2" stroke-dasharray="2 1" />
+                </g>
+                <!-- Label -->
+                <text x="57" y="44" text-anchor="middle" fill="#ffffff" font-weight="800" font-size="11" letter-spacing="0.8" font-family="Poppins, sans-serif">RECEPTOR MIC</text>
+              </g>
+
+              <!-- MODULE 5: EMISOR IN-EAR (x=393) -->
+              <g id="plot-elem-5" class="cursor-pointer transition-all duration-300" onmouseenter="highlightItem(5)" onmouseleave="unhighlightItem()" transform="translate(393, 300)">
+                <rect x="0" y="0" width="114" height="52" rx="8" fill="url(#moduleGrad)" stroke="rgba(168, 85, 247, 0.4)" stroke-width="1.5" />
+                <!-- Badge 5 -->
+                <g id="badge-icon-5" transform="translate(14, 14)">
+                  <circle cx="0" cy="0" r="10" fill="#09090b" stroke="#a855f7" stroke-width="1.8" />
+                  <text x="0" y="3.5" text-anchor="middle" fill="#d8b4fe" font-weight="900" font-size="10.5" font-family="Poppins, sans-serif">5</text>
+                </g>
+                <!-- Transmitter Vector Icon -->
+                <g transform="translate(64, 6)">
+                  <rect x="0" y="2" width="28" height="14" rx="2" fill="#1e1b2e" stroke="#ff3afc" stroke-width="1" />
+                  <line x1="14" y1="2" x2="14" y2="-3" stroke="#ff3afc" stroke-width="1.2" />
+                  <circle cx="7" cy="9" r="2.5" fill="#09090b" stroke="#ff3afc" stroke-width="0.8" />
+                  <rect x="13" y="6" width="11" height="6" rx="1" fill="#09090b" />
+                  <line x1="15" y1="9" x2="22" y2="9" stroke="#38bdf8" stroke-width="1.2" stroke-dasharray="1.5 1" />
+                </g>
+                <!-- Label -->
+                <text x="57" y="44" text-anchor="middle" fill="#ffffff" font-weight="800" font-size="11" letter-spacing="0.8" font-family="Poppins, sans-serif">EMISOR IN-EAR</text>
+              </g>
+
+              <!-- MODULE 8: FUENTE CORRIENTE 220V/230V (x=513) -->
+              <g id="plot-elem-8" class="cursor-pointer transition-all duration-300" onmouseenter="highlightItem(8)" onmouseleave="unhighlightItem()" transform="translate(513, 300)">
+                <rect x="0" y="0" width="114" height="52" rx="8" fill="url(#moduleGrad)" stroke="#eab308" stroke-width="1.5" />
+                <!-- Badge 8 -->
+                <g id="badge-icon-8" transform="translate(14, 14)">
+                  <circle cx="0" cy="0" r="10" fill="#09090b" stroke="#a855f7" stroke-width="1.8" />
+                  <text x="0" y="3.5" text-anchor="middle" fill="#d8b4fe" font-weight="900" font-size="10.5" font-family="Poppins, sans-serif">8</text>
+                </g>
+                <!-- AC Power Sockets + Lightning Icon -->
+                <g transform="translate(64, 6)">
+                  <rect x="0" y="2" width="28" height="14" rx="2" fill="#1e1b2e" stroke="#eab308" stroke-width="1" />
+                  <circle cx="7" cy="9" r="3.5" fill="#09090b" stroke="#eab308" stroke-width="0.8" />
+                  <circle cx="21" cy="9" r="3.5" fill="#09090b" stroke="#eab308" stroke-width="0.8" />
+                  <path d="M 14 3 L 12 8 L 15 8 L 13 14 L 17 7.5 L 14.5 7.5 Z" fill="#eab308" />
+                </g>
+                <!-- Label -->
+                <text x="57" y="44" text-anchor="middle" fill="#fef08a" font-weight="800" font-size="11" letter-spacing="0.8" font-family="Poppins, sans-serif">220V / 230V</text>
+              </g>
+            </g>
+
+            <!-- ======================================================== -->
+            <!-- ARTISTS: 4 VOCALISTS (FRONT OF STAGE)                    -->
+            <!-- EXACT SAME SIZE: r=38, glow=45, font-size=20             -->
+            <!-- ======================================================== -->
+
+            <!-- 1. YASU (cx=180, cy=460) -->
+            <g id="vocalist-yasu" class="cursor-pointer transition-all duration-300" onmouseenter="highlightArtist('Yasu', 'Voz Principal')" onmouseleave="unhighlightItem()">
+              <image href="assets/member_yasu.jpg" x="142" y="422" width="76" height="76" clip-path="url(#clipYasu)" preserveAspectRatio="xMidYMid slice" />
+              <rect class="artist-border" x="142" y="422" width="76" height="76" rx="12" fill="none" stroke="rgba(168, 85, 247, 0.6)" stroke-width="1.2" />
+
+              <!-- Mic badge [6] -->
+              <g class="badge-icon-6" transform="translate(140, 460)">
+                <circle cx="0" cy="0" r="12" fill="#09090b" stroke="#a855f7" stroke-width="2" />
+                <text x="0" y="4" text-anchor="middle" fill="#d8b4fe" font-weight="900" font-size="11" font-family="Poppins, sans-serif">6</text>
+              </g>
+              <!-- In-Ear badge [7] -->
+              <g class="badge-icon-7" transform="translate(220, 460)">
+                <circle cx="0" cy="0" r="12" fill="#09090b" stroke="#a855f7" stroke-width="2" />
+                <text x="0" y="4" text-anchor="middle" fill="#d8b4fe" font-weight="900" font-size="11" font-family="Poppins, sans-serif">7</text>
+              </g>
+
+              <text x="180" y="517" text-anchor="middle" fill="#ffffff" font-weight="900" font-size="20" letter-spacing="2.5" font-family="Poppins, sans-serif">YASU</text>
+            </g>
+
+            <!-- 2. DSTRO (cx=360, cy=460) -->
+            <g id="vocalist-dstro" class="cursor-pointer transition-all duration-300" onmouseenter="highlightArtist('Dstro', 'Voz Principal')" onmouseleave="unhighlightItem()">
+              <image href="assets/member_dstro.jpg" x="322" y="422" width="76" height="76" clip-path="url(#clipDstro)" preserveAspectRatio="xMidYMid slice" />
+              <rect class="artist-border" x="322" y="422" width="76" height="76" rx="12" fill="none" stroke="rgba(168, 85, 247, 0.6)" stroke-width="1.2" />
+
+              <!-- Mic badge [6] -->
+              <g class="badge-icon-6" transform="translate(320, 460)">
+                <circle cx="0" cy="0" r="12" fill="#09090b" stroke="#a855f7" stroke-width="2" />
+                <text x="0" y="4" text-anchor="middle" fill="#d8b4fe" font-weight="900" font-size="11" font-family="Poppins, sans-serif">6</text>
+              </g>
+              <!-- In-Ear badge [7] -->
+              <g class="badge-icon-7" transform="translate(400, 460)">
+                <circle cx="0" cy="0" r="12" fill="#09090b" stroke="#a855f7" stroke-width="2" />
+                <text x="0" y="4" text-anchor="middle" fill="#d8b4fe" font-weight="900" font-size="11" font-family="Poppins, sans-serif">7</text>
+              </g>
+
+              <text x="360" y="517" text-anchor="middle" fill="#ffffff" font-weight="900" font-size="20" letter-spacing="2.5" font-family="Poppins, sans-serif">DSTRO</text>
+            </g>
+
+            <!-- 3. DELVALLEZ (cx=540, cy=460) -->
+            <g id="vocalist-delvallez" class="cursor-pointer transition-all duration-300" onmouseenter="highlightArtist('Delvallez', 'Voz Principal')" onmouseleave="unhighlightItem()">
+              <image href="assets/member_delvallez.jpg" x="502" y="422" width="76" height="76" clip-path="url(#clipDelvallez)" preserveAspectRatio="xMidYMid slice" />
+              <rect class="artist-border" x="502" y="422" width="76" height="76" rx="12" fill="none" stroke="rgba(168, 85, 247, 0.6)" stroke-width="1.2" />
+
+              <!-- Mic badge [6] -->
+              <g class="badge-icon-6" transform="translate(500, 460)">
+                <circle cx="0" cy="0" r="12" fill="#09090b" stroke="#a855f7" stroke-width="2" />
+                <text x="0" y="4" text-anchor="middle" fill="#d8b4fe" font-weight="900" font-size="11" font-family="Poppins, sans-serif">6</text>
+              </g>
+              <!-- In-Ear badge [7] -->
+              <g class="badge-icon-7" transform="translate(580, 460)">
+                <circle cx="0" cy="0" r="12" fill="#09090b" stroke="#a855f7" stroke-width="2" />
+                <text x="0" y="4" text-anchor="middle" fill="#d8b4fe" font-weight="900" font-size="11" font-family="Poppins, sans-serif">7</text>
+              </g>
+
+              <text x="540" y="517" text-anchor="middle" fill="#ffffff" font-weight="900" font-size="20" letter-spacing="2.5" font-family="Poppins, sans-serif">DELVALLEZ</text>
+            </g>
+
+            <!-- 4. APOLO (cx=720, cy=460) -->
+            <g id="vocalist-apolo" class="cursor-pointer transition-all duration-300" onmouseenter="highlightArtist('Apolo', 'Voz / Hype')" onmouseleave="unhighlightItem()">
+              <image href="assets/member_apolo.jpg" x="682" y="422" width="76" height="76" clip-path="url(#clipApolo)" preserveAspectRatio="xMidYMid slice" />
+              <rect class="artist-border" x="682" y="422" width="76" height="76" rx="12" fill="none" stroke="rgba(168, 85, 247, 0.6)" stroke-width="1.2" />
+
+              <!-- Mic badge [6] -->
+              <g class="badge-icon-6" transform="translate(680, 460)">
+                <circle cx="0" cy="0" r="12" fill="#09090b" stroke="#a855f7" stroke-width="2" />
+                <text x="0" y="4" text-anchor="middle" fill="#d8b4fe" font-weight="900" font-size="11" font-family="Poppins, sans-serif">6</text>
+              </g>
+              <!-- In-Ear badge [7] -->
+              <g class="badge-icon-7" transform="translate(760, 460)">
+                <circle cx="0" cy="0" r="12" fill="#09090b" stroke="#a855f7" stroke-width="2" />
+                <text x="0" y="4" text-anchor="middle" fill="#d8b4fe" font-weight="900" font-size="11" font-family="Poppins, sans-serif">7</text>
+              </g>
+
+              <text x="720" y="517" text-anchor="middle" fill="#ffffff" font-weight="900" font-size="20" letter-spacing="2.5" font-family="Poppins, sans-serif">APOLO</text>
+            </g>
+
+            <!-- Audience Front Marker (Same width and style as Pantalla LED: width 670, height 46, rx 23) -->
+            <g transform="translate(450, 588)">
+              <rect x="-335" y="-23" width="670" height="46" rx="23" fill="#09090b" stroke="rgba(192, 33, 156, 0.6)" stroke-width="1.6" />
+              <text x="0" y="6" text-anchor="middle" fill="#f0abfc" font-weight="900" font-size="16.5" letter-spacing="4.5" font-family="Poppins, sans-serif">
+                ▼ AUDIENCIA (FRENTE) ▼
+              </text>
+            </g>
+          </svg>
+        </div>
+
+        <!-- 10-Item Materials List (Clean 5-Column Grid on Desktop, larger & readable) -->
+        <div class="mt-4 pt-3">
+          <div class="text-sm sm:text-base font-black uppercase tracking-wider text-white mb-3">
+            LISTA DE MATERIAL &amp; EQUIPAMIENTO
+          </div>
+
+          <div class="grid grid-cols-5 gap-1.5 sm:gap-2.5">
+            <div id="item-row-1" onmouseenter="highlightItem(1)" onmouseleave="unhighlightItem()" class="legend-row p-2 sm:p-2.5 rounded-xl flex flex-col items-center justify-center text-center bg-zinc-950/80 border border-purple-900/40 hover:border-[#ff3afc] transition-all cursor-pointer">
+              <span class="w-8 h-8 rounded-lg bg-zinc-900 border-2 border-[#a855f7]/60 text-[#d8b4fe] font-black text-sm flex items-center justify-center mb-1.5 shadow-sm">1</span>
+              <span class="text-xs sm:text-sm font-bold text-zinc-100 leading-tight">Interfaz de Audio</span>
+            </div>
+
+            <div id="item-row-2" onmouseenter="highlightItem(2)" onmouseleave="unhighlightItem()" class="legend-row p-2 sm:p-2.5 rounded-xl flex flex-col items-center justify-center text-center bg-zinc-950/80 border border-purple-900/40 hover:border-[#ff3afc] transition-all cursor-pointer">
+              <span class="w-8 h-8 rounded-lg bg-zinc-900 border-2 border-[#a855f7]/60 text-[#d8b4fe] font-black text-sm flex items-center justify-center mb-1.5 shadow-sm">2</span>
+              <span class="text-xs sm:text-sm font-bold text-zinc-100 leading-tight">Mesa de DJ</span>
+            </div>
+
+            <div id="item-row-3" onmouseenter="highlightItem(3)" onmouseleave="unhighlightItem()" class="legend-row p-2 sm:p-2.5 rounded-xl flex flex-col items-center justify-center text-center bg-zinc-950/80 border border-purple-900/40 hover:border-[#ff3afc] transition-all cursor-pointer">
+              <span class="w-8 h-8 rounded-lg bg-zinc-900 border-2 border-[#a855f7]/60 text-[#d8b4fe] font-black text-sm flex items-center justify-center mb-1.5 shadow-sm">3</span>
+              <span class="text-xs sm:text-sm font-bold text-zinc-100 leading-tight">Ordenador DAW</span>
+            </div>
+
+            <div id="item-row-4" onmouseenter="highlightItem(4)" onmouseleave="unhighlightItem()" class="legend-row p-2 sm:p-2.5 rounded-xl flex flex-col items-center justify-center text-center bg-zinc-950/80 border border-purple-900/40 hover:border-[#ff3afc] transition-all cursor-pointer">
+              <span class="w-8 h-8 rounded-lg bg-zinc-900 border-2 border-[#a855f7]/60 text-[#d8b4fe] font-black text-sm flex items-center justify-center mb-1.5 shadow-sm">4</span>
+              <span class="text-xs sm:text-sm font-bold text-zinc-100 leading-tight">Receptor Mic</span>
+            </div>
+
+            <div id="item-row-5" onmouseenter="highlightItem(5)" onmouseleave="unhighlightItem()" class="legend-row p-2 sm:p-2.5 rounded-xl flex flex-col items-center justify-center text-center bg-zinc-950/80 border border-purple-900/40 hover:border-[#ff3afc] transition-all cursor-pointer">
+              <span class="w-8 h-8 rounded-lg bg-zinc-900 border-2 border-[#a855f7]/60 text-[#d8b4fe] font-black text-sm flex items-center justify-center mb-1.5 shadow-sm">5</span>
+              <span class="text-xs sm:text-sm font-bold text-zinc-100 leading-tight">Emisor In&#8209;Ear</span>
+            </div>
+
+            <div id="item-row-6" onmouseenter="highlightItem(6)" onmouseleave="unhighlightItem()" class="legend-row p-2 sm:p-2.5 rounded-xl flex flex-col items-center justify-center text-center bg-zinc-950/80 border border-purple-900/40 hover:border-[#ff3afc] transition-all cursor-pointer">
+              <span class="w-8 h-8 rounded-lg bg-zinc-900 border-2 border-[#a855f7]/60 text-[#d8b4fe] font-black text-sm flex items-center justify-center mb-1.5 shadow-sm">6</span>
+              <span class="text-xs sm:text-sm font-bold text-zinc-100 leading-tight">Micrófono Wireless</span>
+            </div>
+
+            <div id="item-row-7" onmouseenter="highlightItem(7)" onmouseleave="unhighlightItem()" class="legend-row p-2 sm:p-2.5 rounded-xl flex flex-col items-center justify-center text-center bg-zinc-950/80 border border-purple-900/40 hover:border-[#ff3afc] transition-all cursor-pointer">
+              <span class="w-8 h-8 rounded-lg bg-zinc-900 border-2 border-[#a855f7]/60 text-[#d8b4fe] font-black text-sm flex items-center justify-center mb-1.5 shadow-sm">7</span>
+              <span class="text-xs sm:text-sm font-bold text-zinc-100 leading-tight">Receptor In&#8209;Ear</span>
+            </div>
+
+            <div id="item-row-8" onmouseenter="highlightItem(8)" onmouseleave="unhighlightItem()" class="legend-row p-2 sm:p-2.5 rounded-xl flex flex-col items-center justify-center text-center bg-zinc-950/80 border border-purple-900/40 hover:border-[#ff3afc] transition-all cursor-pointer">
+              <span class="w-8 h-8 rounded-lg bg-zinc-900 border-2 border-[#a855f7]/60 text-[#d8b4fe] font-black text-sm flex items-center justify-center mb-1.5 shadow-sm">8</span>
+              <span class="text-xs sm:text-sm font-bold text-zinc-100 leading-tight">Fuente Corriente</span>
+            </div>
+
+            <div id="item-row-9" onmouseenter="highlightItem(9)" onmouseleave="unhighlightItem()" class="legend-row p-2 sm:p-2.5 rounded-xl flex flex-col items-center justify-center text-center bg-zinc-950/80 border border-purple-900/40 hover:border-[#ff3afc] transition-all cursor-pointer">
+              <span class="w-8 h-8 rounded-lg bg-zinc-900 border-2 border-[#a855f7]/60 text-[#d8b4fe] font-black text-sm flex items-center justify-center mb-1.5 shadow-sm">9</span>
+              <span class="text-xs sm:text-sm font-bold text-zinc-100 leading-tight">Pantalla LED</span>
+            </div>
+
+            <div id="item-row-10" onmouseenter="highlightItem(10)" onmouseleave="unhighlightItem()" class="legend-row p-2 sm:p-2.5 rounded-xl flex flex-col items-center justify-center text-center bg-zinc-950/80 border border-purple-900/40 hover:border-[#ff3afc] transition-all cursor-pointer">
+              <span class="w-8 h-8 rounded-lg bg-zinc-900 border-2 border-[#a855f7]/60 text-[#d8b4fe] font-black text-sm flex items-center justify-center mb-1.5 shadow-sm">10</span>
+              <span class="text-xs sm:text-sm font-bold text-zinc-100 leading-tight">Máquina de Humo</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Download link & technical contact with unified aesthetic -->
+        <div class="text-center pt-4 space-y-3">
+          <div>
+            <a href="assets/stage_rider_pro.png" target="_blank" download="LEAN_AND_WAVS_Stage_Plot.png" 
+               class="canva-info-card inline-block py-3 px-8 rounded-2xl text-center group">
+              <div class="text-sm sm:text-base font-black text-white tracking-wider uppercase group-hover:scale-[1.01] transition-transform flex items-center justify-center gap-2.5">
+                <svg class="w-5 h-5 text-fuchsia-300 fill-current shrink-0" viewBox="0 0 24 24">
+                  <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
+                </svg>
+                <span>Descargar Stage Plot (PNG)</span>
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-fuchsia-300 group-hover:text-white transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="7" y1="17" x2="17" y2="7"></line>
+                  <polyline points="7 7 17 7 17 17"></polyline>
+                </svg>
+              </div>
+            </a>
+          </div>
+          <div class="text-sm sm:text-base text-zinc-300 pt-0.5">
+            Contacto técnico: <strong class="text-white font-bold">Danel Otegui</strong> <a href="tel:+34693030172" class="text-[#ff3afc] font-bold hover:underline">+34 693 03 01 72</a> | <a href="mailto:danelotegui17@gmail.com" class="text-[#ff3afc] font-bold hover:underline">danelotegui17@gmail.com</a>
+          </div>
+        </div>
+
+      </div>
+</section>
+
+    <!-- ========================================== -->
+    <!-- PAGE 5: REDES SOCIALES & GRUPO OFICIAL     -->
+    <!-- ========================================== -->
+    <section class="space-y-6">
+      <div class="text-center space-y-1">
+        <h2 class="text-3xl sm:text-4xl md:text-5xl font-black text-white tracking-wider uppercase">REDES SOCIALES</h2>
+        <p class="text-xs font-bold text-zinc-300 tracking-widest uppercase">-HAZ CLIC PARA VER-</p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
+        <!-- YouTube -->
+        <a href="https://www.youtube.com/@leanandwavs" target="_blank" rel="noopener noreferrer"
+           class="canva-info-card block w-full py-4 px-3 sm:px-4 rounded-2xl text-center group">
+          <div class="flex items-center justify-center gap-2 text-base sm:text-lg font-black text-white tracking-wider uppercase group-hover:scale-[1.01] transition-transform">
+            <svg class="w-5 h-5 text-fuchsia-300 fill-current shrink-0" viewBox="0 0 24 24">
+              <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+            </svg>
+            <span>YouTube</span>
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-fuchsia-300 group-hover:text-white transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="7" y1="17" x2="17" y2="7"></line>
+              <polyline points="7 7 17 7 17 17"></polyline>
+            </svg>
+          </div>
+          <div class="text-xs sm:text-sm font-semibold text-fuchsia-200 tracking-wide mt-0.5">
+            @leanandwavs
+          </div>
+        </a>
+
+        <!-- Instagram -->
+        <a href="https://www.instagram.com/leanandwavs/" target="_blank" rel="noopener noreferrer"
+           class="canva-info-card block w-full py-4 px-3 sm:px-4 rounded-2xl text-center group">
+          <div class="flex items-center justify-center gap-2 text-base sm:text-lg font-black text-white tracking-wider uppercase group-hover:scale-[1.01] transition-transform">
+            <svg class="w-5 h-5 text-fuchsia-300 fill-current shrink-0" viewBox="0 0 24 24">
+              <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+            </svg>
+            <span>Instagram</span>
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-fuchsia-300 group-hover:text-white transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="7" y1="17" x2="17" y2="7"></line>
+              <polyline points="7 7 17 7 17 17"></polyline>
+            </svg>
+          </div>
+          <div class="text-xs sm:text-sm font-semibold text-fuchsia-200 tracking-wide mt-0.5">
+            @leanandwavs
+          </div>
+        </a>
+
+        <!-- Spotify -->
+        <a href="https://open.spotify.com/artist/0W5h1YmMarSkn45kDtouko?si=TIgN8WoJSruRC1EDwHr2UA" target="_blank" rel="noopener noreferrer"
+           class="canva-info-card block w-full py-4 px-3 sm:px-4 rounded-2xl text-center group">
+          <div class="flex items-center justify-center gap-2 text-base sm:text-lg font-black text-white tracking-wider uppercase group-hover:scale-[1.01] transition-transform">
+            <svg class="w-5 h-5 text-fuchsia-300 fill-current shrink-0" viewBox="0 0 24 24">
+              <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.494 17.306c-.215.353-.674.464-1.026.25-2.812-1.718-6.353-2.107-10.523-1.155-.403.092-.807-.16-.899-.562-.092-.403.16-.807.562-.899 4.568-1.044 8.49-.606 11.636 1.34.352.215.464.673.25 1.026zm1.465-3.262c-.27.44-.848.577-1.288.307-3.22-1.979-8.129-2.551-11.938-1.394-.498.151-1.027-.133-1.178-.631-.151-.498.133-1.027.631-1.178 4.357-1.322 9.775-.683 13.466 1.608.44.27.577.848.307 1.288zm.126-3.41c-3.861-2.293-10.231-2.505-13.916-1.386-.593.18-1.223-.157-1.403-.75-.18-.593.157-1.223.75-1.403 4.237-1.286 11.272-1.042 15.698 1.585.534.317.709 1.01.392 1.544-.317.534-1.01.709-1.521.41z"/>
+            </svg>
+            <span>Spotify</span>
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-fuchsia-300 group-hover:text-white transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="7" y1="17" x2="17" y2="7"></line>
+              <polyline points="7 7 17 7 17 17"></polyline>
+            </svg>
+          </div>
+          <div class="text-xs sm:text-sm font-semibold text-fuchsia-200 tracking-wide mt-0.5">
+            Perfil de Artista
+          </div>
+        </a>
+      </div>
+
+      <!-- Live Photo: Clean Native Framing (Zero Black Margins) -->
+      <div onclick="openImageModal('assets/photo_live_party.jpg')" class="magenta-glow-item photo-zoom-container rounded-3xl overflow-hidden w-full group">
+        <img src="assets/photo_live_party.jpg" alt="LEAN & WAVS En Directo" class="w-full h-auto block transition-transform duration-300 group-hover:scale-[1.02]">
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- PAGE 6: CONTACTO & + INFORMACIÓN           -->
+    <!-- ========================================== -->
+    <section id="contacto" class="space-y-8">
+      <div class="text-center">
+        <h2 class="text-3xl sm:text-4xl md:text-5xl font-black text-white tracking-wider uppercase">CONTACTO</h2>
+      </div>
+
+      <!-- 3 TARJETAS DE CONTACTO EN HORIZONTAL -->
+      <div class="space-y-3 sm:space-y-3.5">
+        <!-- Tarjeta 1: Producción General -->
+        <div class="contact-info-card p-4 sm:p-5 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-6 shadow-lg">
+          <div class="text-left">
+            <div class="text-[11px] sm:text-xs font-extrabold tracking-widest text-fuchsia-300 uppercase mb-0.5">
+              PRODUCCIÓN GENERAL
+            </div>
+            <div class="text-lg sm:text-xl font-black text-white tracking-wider uppercase">
+              IGNACIO LAMAISON
+            </div>
+          </div>
+          <div class="flex flex-col sm:items-end gap-1.5 pt-1 sm:pt-0">
+            <a href="mailto:leanandwavs@gmail.com" class="flex items-center sm:justify-end gap-1.5 text-xs sm:text-sm font-semibold text-fuchsia-200 hover:text-white hover:underline transition-colors">
+              <svg class="w-3.5 h-3.5 text-fuchsia-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+              <span>leanandwavs@gmail.com</span>
+            </a>
+            <a href="tel:+34609266233" class="flex items-center sm:justify-end gap-1.5 text-sm sm:text-base font-black text-white hover:text-fuchsia-200 transition-colors tracking-wide">
+              <svg class="w-3.5 h-3.5 text-fuchsia-400 shrink-0" fill="currentColor" viewBox="0 0 24 24"><path d="M6.62 10.79a15.053 15.053 0 006.59 6.59l2.2-2.2a1 1 0 011.02-.24c1.12.37 2.33.57 3.57.57a1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1c0 1.25.2 2.45.57 3.57a1 1 0 01-.25 1.02l-2.2 2.2z"/></svg>
+              <span>+34 609 266 233</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Tarjeta 2: MGMT y BOOKING -->
+        <div class="contact-info-card p-4 sm:p-5 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-6 shadow-lg">
+          <div class="text-left">
+            <div class="text-[11px] sm:text-xs font-extrabold tracking-widest text-fuchsia-300 uppercase mb-0.5">
+              MGMT Y BOOKING
+            </div>
+            <div class="text-lg sm:text-xl font-black text-white tracking-wider uppercase">
+              SANTIAGO IZQUIERDO
+            </div>
+          </div>
+          <div class="flex flex-col sm:items-end gap-1.5 pt-1 sm:pt-0">
+            <a href="mailto:santiagoizquierdo.contacto@gmail.com" class="flex items-center sm:justify-end gap-1.5 text-xs sm:text-sm font-semibold text-fuchsia-200 hover:text-white hover:underline transition-colors">
+              <svg class="w-3.5 h-3.5 text-fuchsia-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+              <span>santiagoizquierdo.contacto@gmail.com</span>
+            </a>
+            <a href="tel:+34674220103" class="flex items-center sm:justify-end gap-1.5 text-sm sm:text-base font-black text-white hover:text-fuchsia-200 transition-colors tracking-wide">
+              <svg class="w-3.5 h-3.5 text-fuchsia-400 shrink-0" fill="currentColor" viewBox="0 0 24 24"><path d="M6.62 10.79a15.053 15.053 0 006.59 6.59l2.2-2.2a1 1 0 011.02-.24c1.12.37 2.33.57 3.57.57a1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1c0 1.25.2 2.45.57 3.57a1 1 0 01-.25 1.02l-2.2 2.2z"/></svg>
+              <span>+34 674 220 103</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Tarjeta 3: Técnico / DJ -->
+        <div class="contact-info-card p-4 sm:p-5 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-6 shadow-lg">
+          <div class="text-left">
+            <div class="text-[11px] sm:text-xs font-extrabold tracking-widest text-fuchsia-300 uppercase mb-0.5">
+              TÉCNICO / DJ
+            </div>
+            <div class="text-lg sm:text-xl font-black text-white tracking-wider uppercase">
+              DANEL OTEGUI
+            </div>
+          </div>
+          <div class="flex flex-col sm:items-end gap-1.5 pt-1 sm:pt-0">
+            <a href="mailto:danelotegui17@gmail.com" class="flex items-center sm:justify-end gap-1.5 text-xs sm:text-sm font-semibold text-fuchsia-200 hover:text-white hover:underline transition-colors">
+              <svg class="w-3.5 h-3.5 text-fuchsia-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+              <span>danelotegui17@gmail.com</span>
+            </a>
+            <a href="tel:+34693030172" class="flex items-center sm:justify-end gap-1.5 text-sm sm:text-base font-black text-white hover:text-fuchsia-200 transition-colors tracking-wide">
+              <svg class="w-3.5 h-3.5 text-fuchsia-400 shrink-0" fill="currentColor" viewBox="0 0 24 24"><path d="M6.62 10.79a15.053 15.053 0 006.59 6.59l2.2-2.2a1 1 0 011.02-.24c1.12.37 2.33.57 3.57.57a1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1c0 1.25.2 2.45.57 3.57a1 1 0 01-.25 1.02l-2.2 2.2z"/></svg>
+              <span>+34 693 03 01 72</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick 1-Click WhatsApp Booking Button -->
+      <div class="pt-1">
+        <a href="https://wa.me/34674220103?text=Hola%20Santiago!%20Te%20contacto%20desde%20el%20portfolio%20de%20LEAN%20%26%20WAVS%20para%20consultar%20disponibilidad%20y%20presupuesto." target="_blank" rel="noopener noreferrer" 
+           class="canva-info-card block w-full py-4 px-4 sm:px-8 rounded-2xl text-center group">
+          <div class="text-sm sm:text-base font-black text-white tracking-wider uppercase group-hover:scale-[1.01] transition-transform flex items-center justify-center gap-2.5">
+            <svg class="w-5 h-5 text-fuchsia-300 fill-current shrink-0" viewBox="0 0 24 24" fill-rule="evenodd" clip-rule="evenodd">
+              <path d="M12.012 2c-5.506 0-9.989 4.478-9.99 9.984a9.96 9.96 0 0 0 1.333 4.993L2 22l5.233-1.237a9.994 9.994 0 0 0 4.779 1.217h.004c5.505 0 9.988-4.478 9.989-9.984 0-2.669-1.037-5.176-2.925-7.062A9.924 9.924 0 0 0 12.012 2zm5.495 12.301c-.24-.12-1.423-.703-1.644-.783-.22-.08-.381-.12-.541.12s-.622.783-.762.943-.281.18-.521.06a6.561 6.561 0 0 1-1.936-1.194 7.234 7.234 0 0 1-1.341-1.666c-.14-.24-.015-.37.105-.49.108-.108.24-.281.361-.421s.16-.24.24-.401.04-.301-.02-.421c-.06-.12-.541-1.303-.742-1.784-.195-.469-.393-.405-.541-.413l-.462-.008c-.16 0-.421.06-.641.301s-.842.822-.842 2.005.862 2.326.982 2.486c.12.16 1.7 2.595 4.12 3.639.576.248 1.026.396 1.377.508.579.184 1.106.158 1.522.096.464-.069 1.423-.582 1.624-1.144.2-.562.2-1.044.14-1.144-.06-.101-.22-.161-.46-.281z"/>
+            </svg>
+            <span>Abrir WhatsApp con Santiago Izquierdo</span>
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-fuchsia-300 group-hover:text-white transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="7" y1="17" x2="17" y2="7"></line>
+              <polyline points="7 7 17 7 17 17"></polyline>
+            </svg>
+          </div>
+        </a>
+      </div>
+
+      <!-- + INFORMACIÓN: EXACT CANVA PILL CARDS WITH UNIFIED HOVER GLOW -->
+      <div class="space-y-4 pt-6">
+        <div class="text-center space-y-1">
+          <h2 class="text-3xl sm:text-4xl md:text-5xl font-black text-white tracking-wider uppercase">+ INFORMACIÓN</h2>
+          <p class="text-xs font-bold text-zinc-300 tracking-widest uppercase">-HAZ CLIC PARA VER-</p>
+        </div>
+
+        <div class="space-y-3.5">
+          <!-- 2 Cards on Top Row -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+            <!-- Button 1: Playlist Oficial -->
+            <a href="https://open.spotify.com/playlist/3AVXVqP1VrwPLCENBL9Z6O" target="_blank" rel="noopener noreferrer" 
+               class="canva-info-card block w-full py-4 px-6 rounded-2xl text-center group flex flex-col justify-center">
+              <div class="text-base sm:text-lg font-black text-white tracking-wider uppercase group-hover:scale-[1.01] transition-transform flex items-center justify-center gap-1.5">
+                <span>Playlist Oficial</span>
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-fuchsia-300 group-hover:text-white transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="7" y1="17" x2="17" y2="7"></line>
+                  <polyline points="7 7 17 7 17 17"></polyline>
+                </svg>
+              </div>
+              <div class="text-xs sm:text-sm font-semibold text-fuchsia-200 tracking-wide mt-0.5">
+                LEAN &amp; WAVS collection
+              </div>
+            </a>
+
+            <!-- Button 2: LEAN & WAVS Links -->
+            <a href="https://irlpages.com/leanandwavs/lean-wavs" target="_blank" rel="noopener noreferrer" 
+               class="canva-info-card block w-full py-4 px-6 rounded-2xl text-center group flex flex-col justify-center">
+              <div class="text-base sm:text-lg font-black text-white tracking-wider uppercase group-hover:scale-[1.01] transition-transform flex items-center justify-center gap-1.5">
+                <span>LEAN &amp; WAVS Links</span>
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-fuchsia-300 group-hover:text-white transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="7" y1="17" x2="17" y2="7"></line>
+                  <polyline points="7 7 17 7 17 17"></polyline>
+                </svg>
+              </div>
+              <div class="text-xs sm:text-sm font-semibold text-fuchsia-200 tracking-wide mt-0.5">
+                irlpages.com/leanandwavs
+              </div>
+            </a>
+          </div>
+
+          <!-- Button 3: Gasteiz Hoy (Bottom Row, Full Width) -->
+          <div class="canva-info-card block w-full py-5 px-6 sm:px-10 rounded-2xl text-center">
+            <div class="text-base sm:text-lg font-black text-white tracking-wider uppercase mb-2.5">
+              Gasteiz Hoy
+            </div>
+            <div class="space-y-2">
+              <a href="https://www.gasteizhoy.com/yasu-trap-musica-videoclip-museo-bellas-artes-vitoria/" 
+                 target="_blank" rel="noopener noreferrer" 
+                 class="py-2.5 px-4 rounded-xl bg-black/40 hover:bg-black/75 border border-[#ff3afc]/40 hover:border-[#ff3afc] text-xs sm:text-sm font-semibold text-fuchsia-200 hover:text-white transition-all group flex items-center justify-center gap-1.5">
+                <span>LEAN &amp; WAVS llena de Trap el Museo de Bellas Artes</span>
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 text-fuchsia-300 group-hover:text-white transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="7" y1="17" x2="17" y2="7"></line>
+                  <polyline points="7 7 17 7 17 17"></polyline>
+                </svg>
+              </a>
+              <a href="https://www.gasteizhoy.com/desfile-moda-sostenible-vitoria-2026/" 
+                 target="_blank" rel="noopener noreferrer" 
+                 class="py-2.5 px-4 rounded-xl bg-black/40 hover:bg-black/75 border border-[#ff3afc]/40 hover:border-[#ff3afc] text-xs sm:text-sm font-semibold text-fuchsia-200 hover:text-white transition-all group flex items-center justify-center gap-1.5">
+                <span>Desfile de Moda Sostenible: Re-Viste tu Mente</span>
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 text-fuchsia-300 group-hover:text-white transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="7" y1="17" x2="17" y2="7"></line>
+                  <polyline points="7 7 17 7 17 17"></polyline>
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer Branding -->
+    <footer class="w-full !mt-10 sm:!mt-12 pt-6 sm:pt-8 pb-8 text-center border-t border-white/10 space-y-3 sm:space-y-3.5">
+      <img src="assets/lean_wavs_logo.png" alt="LEAN & WAVS" class="w-20 h-20 sm:w-24 sm:h-24 mx-auto rounded-full shadow-[0_0_30px_rgba(255,58,252,0.5)] hover:scale-105 transition-transform">
+      <p class="text-xs sm:text-sm font-black text-zinc-300 tracking-widest uppercase">© 2026 LEAN &amp; WAVS</p>
+    </footer>
+
+  </main>
+
+  <!-- Interactive Lightbox Modal for Photo Zoom -->
+  <div id="image-modal" onclick="closeImageModal()" class="fixed inset-0 z-[100] hidden items-center justify-center bg-black/90 backdrop-blur-md p-4 transition-all duration-300 opacity-0 pointer-events-none">
+    <div class="relative max-w-4xl max-h-[90vh] w-full flex items-center justify-center" onclick="event.stopPropagation()">
+      <img id="modal-image" src="" alt="Zoom" class="max-w-full max-h-[85vh] object-contain rounded-2xl border border-[#ff3afc]/60 shadow-[0_0_50px_rgba(224,46,189,0.6)] transition-transform duration-300 scale-95">
+      <button onclick="closeImageModal()" class="absolute -top-3 -right-3 sm:-top-5 sm:-right-5 w-10 h-10 rounded-full bg-zinc-900 border border-[#ff3afc]/50 text-white font-black text-lg flex items-center justify-center hover:bg-pink-600 hover:scale-110 transition-all shadow-xl">
+        ✕
+      </button>
+    </div>
+  </div>
+
+  <script>
+    // Lightbox Zoom Functions
+    function openImageModal(src) {
+      const modal = document.getElementById('image-modal');
+      const img = document.getElementById('modal-image');
+      img.src = src;
+      modal.classList.remove('hidden', 'opacity-0', 'pointer-events-none');
+      modal.classList.add('flex', 'opacity-100', 'pointer-events-auto');
+      setTimeout(() => {
+        img.classList.remove('scale-95');
+        img.classList.add('scale-100');
+      }, 20);
+    }
+
+    function closeImageModal() {
+      const modal = document.getElementById('image-modal');
+      const img = document.getElementById('modal-image');
+      img.classList.remove('scale-100');
+      img.classList.add('scale-95');
+      modal.classList.remove('opacity-100');
+      modal.classList.add('opacity-0');
+      setTimeout(() => {
+        modal.classList.remove('flex', 'pointer-events-auto');
+        modal.classList.add('hidden', 'pointer-events-none');
+      }, 250);
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeImageModal();
+    });
+
+    const members = {
+      yasu: {
+        name: "YASU",
+        tag: "Vocalista, Compositor, Productor",
+        ig: "https://www.instagram.com/yasu.lw/",
+        handle: "@yasu.lw"
+      },
+      dstro: {
+        name: "DSTRO",
+        tag: "Vocalista, Compositor, Productor, Ingeniero de Mezcla y Master",
+        ig: "https://www.instagram.com/dstro.lw/",
+        handle: "@dstro.lw"
+      },
+      delvallez: {
+        name: "DELVALLEZ",
+        tag: "Vocalista, Compositor, Productor",
+        ig: "https://www.instagram.com/delvallez.lw/",
+        handle: "@delvallez.lw"
+      },
+      apolo: {
+        name: "APOLO",
+        tag: "Vocalista, Compositor, Director Visual",
+        ig: "https://www.instagram.com/apolo.lw/",
+        handle: "@apolo.lw"
+      },
+      seven: {
+        name: "SEVEN",
+        tag: "Beatmaker, Productor, Técnico/DJ, Ingeniero de Mezcla y Master",
+        ig: "https://www.instagram.com/seventhma/",
+        handle: "@seventhma"
+      }
+    };
+
+    function selectMember(id) {
+      const mem = members[id];
+      if (!mem) return;
+      document.getElementById('mem-name').textContent = mem.name;
+      const memTag = document.getElementById('mem-tag');
+      if (memTag) memTag.textContent = mem.tag;
+      const descEl = document.getElementById('mem-desc');
+      if (descEl) descEl.textContent = mem.desc || '';
+      const igLink = document.getElementById('mem-ig-link');
+      igLink.href = mem.ig;
+      igLink.querySelector('span').textContent = mem.handle;
+
+      ['yasu', 'dstro', 'delvallez', 'apolo', 'seven'].forEach(m => {
+        const btn = document.getElementById('pill-' + m);
+        const thumb = document.getElementById('thumb-' + m);
+        if (btn) {
+          if (m === id) {
+            btn.classList.add('canva-pill-active');
+          } else {
+            btn.classList.remove('canva-pill-active');
+          }
+        }
+        if (thumb) {
+          if (m === id) {
+            thumb.className = "member-item member-thumb thumb-active photo-zoom-container aspect-square w-full rounded-2xl overflow-hidden group cursor-pointer border border-[#ff3afc] shadow-[0_0_20px_rgba(255,58,252,0.6)]";
+          } else {
+            thumb.className = "member-item member-thumb photo-zoom-container aspect-square w-full rounded-2xl overflow-hidden group cursor-pointer border border-purple-900/50 hover:border-[#ff3afc]/70 hover:shadow-[0_0_15px_rgba(255,58,252,0.3)] transition-all";
+          }
+        }
+      });
+    }
+
+    function switchRider(tab) {
+      const op1 = document.getElementById('rider-op1');
+      const op2 = document.getElementById('rider-op2');
+      const btn1 = document.getElementById('tab-btn-1');
+      const btn2 = document.getElementById('tab-btn-2');
+
+      if (tab === 1) {
+        op1.classList.remove('hidden');
+        op2.classList.add('hidden');
+        btn1.classList.add('canva-pill-active');
+        btn2.classList.remove('canva-pill-active');
+      } else {
+        op2.classList.remove('hidden');
+        op1.classList.add('hidden');
+        btn2.classList.add('canva-pill-active');
+        btn1.classList.remove('canva-pill-active');
+      }
+    }
+
+    const durationSteps = [20, 30, 40, 60, 90];
+    const showDescriptions = {
+      20: { title: "Show Showcase (20 Minutos)", desc: "Set relámpago con los 6 mayores hits de LEAN & WAVS. Ideal para aperturas de festivales, clubs o apariciones especiales de alto impacto." },
+      30: { title: "Show Showcase Extendido (30 Minutos)", desc: "Formato dinámico que combina los singles principales con transiciones continuas y momentos de interacción directa con el público." },
+      40: { title: "Show Sala Estándar (40 Minutos)", desc: "Formato estándar para salas de conciertos y festivales. Recorrido equilibrado por todo el repertorio oficial con rotación de vocalistas y pogo multitudinario." },
+      60: { title: "Full Experience Live (60 Minutos)", desc: "Concierto completo con todos los temas oficiales, bises, secciones de DJ en vivo a cargo de Seven y cierre apoteósico con 'LOUVRE'." },
+      90: { title: "Master Headline Experience (90 Minutos)", desc: "El espectáculo definitivo de LEAN & WAVS: 90 minutos de pura adrenalina urbana, discografía completa, colaboraciones en vivo, set extendido de Seven y final apoteósico." }
+    };
+
+    function updateShowDuration(val) {
+      val = parseInt(val, 10);
+      let minutes = val;
+      let stepIndex = val;
+
+      if (val >= 0 && val < durationSteps.length) {
+        stepIndex = val;
+        minutes = durationSteps[val];
+      } else {
+        stepIndex = durationSteps.indexOf(val);
+        if (stepIndex === -1) {
+          stepIndex = durationSteps.reduce((prev, curr, idx) => Math.abs(curr - val) < Math.abs(durationSteps[prev] - val) ? idx : prev, 0);
+          minutes = durationSteps[stepIndex];
+        }
+      }
+
+      const slider = document.getElementById("show-duration-slider");
+      if (slider && parseInt(slider.value, 10) !== stepIndex) {
+        slider.value = stepIndex;
+      }
+
+      const displayTime = document.getElementById("slider-display-time");
+      if (displayTime) displayTime.textContent = minutes + " MIN";
+
+      const pct = (stepIndex * 25) + "%";
+      const thumbDot = document.getElementById("slider-thumb-dot");
+      if (thumbDot) thumbDot.style.left = pct;
+
+      const sliderFill = document.getElementById("slider-fill");
+      if (sliderFill) sliderFill.style.width = pct;
+
+      for (let i = 0; i < durationSteps.length; i++) {
+        const tick = document.getElementById("step-tick-" + i);
+        if (tick) {
+          tick.style.opacity = (i <= stepIndex) ? "0" : "1";
+        }
+      }
+
+      for (let i = 0; i < durationSteps.length; i++) {
+        const btn = document.getElementById("step-btn-" + i);
+        if (btn) {
+          if (i === stepIndex) {
+            btn.className = "absolute top-0 -translate-x-1/2 text-xs font-black text-white scale-110 drop-shadow-[0_0_8px_rgba(255,255,255,0.7)] transition-all cursor-pointer whitespace-nowrap";
+          } else {
+            btn.className = "absolute top-0 -translate-x-1/2 text-xs font-bold text-zinc-400 hover:text-white transition-all cursor-pointer whitespace-nowrap";
+          }
+        }
+      }
+
+      const info = showDescriptions[minutes] || showDescriptions[40];
+      const titleEl = document.getElementById("show-box-title");
+      const textEl = document.getElementById("show-box-text");
+      const descEl = document.getElementById("show-box-desc");
+
+      if (titleEl && textEl) {
+        titleEl.textContent = info.title + ":";
+        titleEl.className = "text-fuchsia-300 font-bold";
+        textEl.textContent = info.desc;
+      } else if (descEl) {
+        descEl.innerHTML = '<strong class="text-fuchsia-300 font-bold" id="show-box-title">' + info.title + ':</strong> <span id="show-box-text">' + info.desc + '</span>';
+      }
+    }
+
+    function setDurationIndex(idx) {
+      updateShowDuration(idx);
+    }
+
+    const itemDetails = {
+      1: "1. Interfaz de Audio",
+      2: "2. Mesa de DJ",
+      3: "3. Ordenador DAW",
+      4: "4. Receptor Micrófono",
+      5: "5. Emisor In-Ear",
+      6: "6. Micrófono Wireless",
+      7: "7. Receptor In-Ear",
+      8: "8. Fuente de Corriente",
+      9: "9. Pantalla LED",
+      10: "10. Máquinas de Humo"
+    };
+
+    function highlightItem(id) {
+      const hud = document.getElementById("hud-text");
+      if (hud && itemDetails[id]) {
+        hud.textContent = itemDetails[id];
+        hud.classList.add("text-[#ff3afc]");
+      }
+
+      // Legend rows
+      document.querySelectorAll(".legend-row, .legend-card").forEach(c => c.classList.remove("active"));
+      const row = document.getElementById("item-row-" + id) || document.getElementById("legend-item-" + id);
+      if (row) row.classList.add("active");
+
+      // Reset stage
+      document.querySelectorAll(".highlight-active, .badge-highlight, .artist-active").forEach(el => {
+        el.classList.remove("highlight-active", "badge-highlight", "artist-active");
+      });
+
+      // Apply highlights
+      if (id === 6) {
+        document.querySelectorAll(".badge-icon-6").forEach(el => el.classList.add("badge-highlight"));
+        document.querySelectorAll("#vocalist-yasu, #vocalist-dstro, #vocalist-delvallez, #vocalist-apolo").forEach(el => el.classList.add("artist-active"));
+      } else if (id === 7) {
+        document.querySelectorAll(".badge-icon-7").forEach(el => el.classList.add("badge-highlight"));
+        document.querySelectorAll("#vocalist-yasu, #vocalist-dstro, #vocalist-delvallez, #vocalist-apolo").forEach(el => el.classList.add("artist-active"));
+      } else if (id === 10) {
+        document.querySelectorAll("#plot-elem-10-l, #plot-elem-10-r").forEach(el => el.classList.add("highlight-active"));
+        document.querySelectorAll("#badge-icon-10-l, #badge-icon-10-r").forEach(el => el.classList.add("badge-highlight"));
+      } else {
+        const el = document.getElementById("plot-elem-" + id);
+        if (el) el.classList.add("highlight-active");
+        const b = document.getElementById("badge-icon-" + id);
+        if (b) b.classList.add("badge-highlight");
+      }
+    }
+
+    function highlightArtist(name, role) {
+      const hud = document.getElementById("hud-text");
+      if (hud) {
+        hud.textContent = name.toUpperCase();
+        hud.classList.add("text-[#ff3afc]");
+      }
+
+      document.querySelectorAll(".legend-row, .legend-card").forEach(c => c.classList.remove("active"));
+      const r6 = document.getElementById("item-row-6");
+      const r7 = document.getElementById("item-row-7");
+      if (r6) r6.classList.add("active");
+      if (r7) r7.classList.add("active");
+
+      document.querySelectorAll(".highlight-active, .badge-highlight, .artist-active").forEach(el => {
+        el.classList.remove("highlight-active", "badge-highlight", "artist-active");
+      });
+
+      const artistEl = document.getElementById("vocalist-" + name.toLowerCase());
+      if (artistEl) {
+        artistEl.classList.add("artist-active");
+        artistEl.querySelectorAll(".badge-icon-6, .badge-icon-7").forEach(b => b.classList.add("badge-highlight"));
+      }
+    }
+
+    function highlightSeven() {
+      const hud = document.getElementById("hud-text");
+      if (hud) {
+        hud.textContent = "SEVEN";
+        hud.classList.add("text-[#ff3afc]");
+      }
+
+      document.querySelectorAll(".legend-row, .legend-card").forEach(c => c.classList.remove("active"));
+      [1, 2, 3, 4, 5, 8].forEach(i => {
+        const r = document.getElementById("item-row-" + i);
+        if (r) r.classList.add("active");
+      });
+
+      document.querySelectorAll(".highlight-active, .badge-highlight, .artist-active").forEach(el => {
+        el.classList.remove("highlight-active", "badge-highlight", "artist-active");
+      });
+
+      const seven = document.getElementById("performer-seven");
+      if (seven) seven.classList.add("artist-active");
+
+      document.querySelectorAll("#plot-elem-1, #plot-elem-2, #plot-elem-3, #plot-elem-4, #plot-elem-5, #plot-elem-8").forEach(el => el.classList.add("highlight-active"));
+      document.querySelectorAll("#badge-icon-1, #badge-icon-2, #badge-icon-3, #badge-icon-4, #badge-icon-5, #badge-icon-8").forEach(el => el.classList.add("badge-highlight"));
+    }
+
+    function unhighlightItem() {
+      const hud = document.getElementById("hud-text");
+      if (hud) {
+        hud.textContent = "Haz hover en el escenario o en la lista de material para interactuar.";
+        hud.classList.remove("text-[#ff3afc]");
+      }
+
+      document.querySelectorAll(".legend-row, .legend-card").forEach(c => c.classList.remove("active"));
+      document.querySelectorAll(".highlight-active, .badge-highlight, .artist-active").forEach(el => {
+        el.classList.remove("highlight-active", "badge-highlight", "artist-active");
+      });
+    }
+  </script>
+
+  <!-- Floating Spilled Lean Cup Scrollbar with 3D Puddle Trail -->
+  <div id="lean-scroll-container" aria-label="Barra de desplazamiento Vaso de Lean Derramado" role="scrollbar">
+    <!-- Spilled Puddle Trail left behind as cup moves down -->
+    <div id="lean-spill-wrapper">
+      <img id="lean-puddle-img" src="assets/lean_puddle_trail_seamless.png" alt="Rastro de Charco de Lean" draggable="false" />
+    </div>
+    <!-- Spilling Tipped Double Cup Thumb -->
+    <div id="lean-cup-thumb" title="Arrastra para navegar">
+      <img src="assets/lean_cup_spilling.png" alt="Vaso de Lean Derramado" draggable="false" />
+    </div>
+  </div>
+
+  <script>
+    // FLOATING LEAN CUP CUSTOM SCROLLBAR & LIQUID TRAIL LOGIC
+    // FLOATING LEAN CUP CUSTOM SCROLLBAR & LIQUID TRAIL LOGIC (High-Performance 120 FPS Sync)
+    function initLeanScrollbar() {
+      const container = document.getElementById("lean-scroll-container");
+      const spillWrapper = document.getElementById("lean-spill-wrapper");
+      const thumb = document.getElementById("lean-cup-thumb");
+      if (!container || !spillWrapper || !thumb) return;
+
+      let isDragging = false;
+      let startPointerY = 0;
+      let startThumbTop = 0;
+      let maxScroll = 1;
+      let maxThumbTop = 1;
+
+      // Cache dimensions to eliminate layout thrashing during scroll
+      function recalcMetrics() {
+        if (window.innerWidth <= 768) return;
+        const docH = Math.max(
+          document.body.scrollHeight,
+          document.documentElement.scrollHeight,
+          document.body.offsetHeight,
+          document.documentElement.offsetHeight
+        );
+        maxScroll = Math.max(1, docH - window.innerHeight);
+
+        const trackH = container.clientHeight || (window.innerHeight - 70);
+        const thumbH = thumb.offsetHeight || 72;
+        maxThumbTop = Math.max(1, trackH - thumbH);
+      }
+
+      // Synchronous, zero-lag position update (both cup and liquid trail update simultaneously)
+      function syncScrollbar() {
+        if (window.innerWidth <= 768) return;
+        if (isDragging) return;
+
+        const currentScroll = window.pageYOffset || document.documentElement.scrollTop || 0;
+        const progress = Math.min(1, Math.max(0, currentScroll / maxScroll));
+        const thumbTop = progress * maxThumbTop;
+
+        thumb.style.top = thumbTop + "px";
+
+        if (progress <= 0.001) {
+          spillWrapper.style.height = "0px";
+          spillWrapper.style.opacity = "0";
+        } else {
+          spillWrapper.style.height = (thumbTop + 18) + "px";
+          spillWrapper.style.opacity = "1";
+        }
+      }
+
+      // Direct scroll listener for 100% frame synchronization
+      window.addEventListener("scroll", syncScrollbar, { passive: true });
+      window.addEventListener("resize", () => {
+        recalcMetrics();
+        syncScrollbar();
+      }, { passive: true });
+
+      if (typeof ResizeObserver !== "undefined") {
+        const ro = new ResizeObserver(() => {
+          recalcMetrics();
+          syncScrollbar();
+        });
+        ro.observe(document.body);
+      }
+
+      // Drag mechanics: 1:1 real-time mouse follow with zero lag
+      function startDrag(e) {
+        if (window.innerWidth <= 768) return;
+        isDragging = true;
+        recalcMetrics();
+        document.documentElement.style.scrollBehavior = "auto";
+        thumb.classList.add("is-dragging");
+        document.body.style.userSelect = "none";
+        document.body.style.webkitUserSelect = "none";
+
+        startPointerY = e.clientY;
+        startThumbTop = parseFloat(thumb.style.top) || 0;
+
+        if (thumb.setPointerCapture && e.pointerId !== undefined) {
+          try { thumb.setPointerCapture(e.pointerId); } catch (err) {}
+        }
+      }
+
+      function doDrag(e) {
+        if (!isDragging) return;
+        const deltaY = e.clientY - startPointerY;
+        const newThumbTop = Math.min(maxThumbTop, Math.max(0, startThumbTop + deltaY));
+
+        thumb.style.top = newThumbTop + "px";
+        if (newThumbTop <= 1) {
+          spillWrapper.style.height = "0px";
+          spillWrapper.style.opacity = "0";
+        } else {
+          spillWrapper.style.height = (newThumbTop + 18) + "px";
+          spillWrapper.style.opacity = "1";
+        }
+
+        const targetScroll = (newThumbTop / maxThumbTop) * maxScroll;
+        window.scrollTo({ top: targetScroll, behavior: "instant" });
+      }
+
+      function stopDrag(e) {
+        if (!isDragging) return;
+        isDragging = false;
+        document.documentElement.style.scrollBehavior = "";
+        thumb.classList.remove("is-dragging");
+        document.body.style.userSelect = "";
+        document.body.style.webkitUserSelect = "";
+
+        if (e && thumb.releasePointerCapture && e.pointerId !== undefined) {
+          try { thumb.releasePointerCapture(e.pointerId); } catch (err) {}
+        }
+        syncScrollbar();
+      }
+
+      thumb.addEventListener("pointerdown", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        startDrag(e);
+      });
+      window.addEventListener("pointermove", doDrag);
+      window.addEventListener("pointerup", stopDrag);
+      window.addEventListener("pointercancel", stopDrag);
+
+      // Track click to jump & immediately follow
+      container.addEventListener("pointerdown", (e) => {
+        if (e.target.closest("#lean-cup-thumb")) return;
+        e.preventDefault();
+        recalcMetrics();
+        document.documentElement.style.scrollBehavior = "auto";
+        const rect = container.getBoundingClientRect();
+        const clickY = e.clientY - rect.top;
+        const thumbH = thumb.offsetHeight || 72;
+        const targetThumbTop = Math.min(maxThumbTop, Math.max(0, clickY - thumbH / 2));
+
+        thumb.style.top = targetThumbTop + "px";
+        spillWrapper.style.height = (targetThumbTop + 18) + "px";
+        spillWrapper.style.opacity = targetThumbTop > 1 ? "1" : "0";
+
+        const targetScroll = (targetThumbTop / maxThumbTop) * maxScroll;
+        window.scrollTo({ top: targetScroll, behavior: "instant" });
+
+        startDrag(e);
+      });
+
+      // Prevent native dragging of cup image
+      thumb.querySelectorAll("img").forEach(img => {
+        img.addEventListener("dragstart", (e) => e.preventDefault());
+      });
+
+      // Initial layout setup
+      recalcMetrics();
+      syncScrollbar();
+    }
+
+    // Smooth scroll for internal anchor navigation
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener("click", function(e) {
+        const href = this.getAttribute("href");
+        if (href && href.length > 1) {
+          const target = document.querySelector(href);
+          if (target) {
+            e.preventDefault();
+            target.scrollIntoView({ behavior: "smooth" });
+          }
+        }
+      });
+    });
+
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", initLeanScrollbar);
+    } else {
+      initLeanScrollbar();
+    }
+  </script>
+
+</body>
+</html>
