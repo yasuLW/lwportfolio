@@ -631,7 +631,7 @@
           </div>
         </div>
         <div id="show-box-desc" class="text-xs sm:text-sm text-zinc-200 leading-relaxed pt-1">
-          <strong class="text-fuchsia-300 font-bold" id="show-box-title">Show Sala Estándar (40 Minutos):</strong> <span id="show-box-text">Formato estándar para salas de conciertos y festivales. Recorrido equilibrado por todo el repertorio oficial con rotación de vocalistas y pogo multitudinario.</span>
+          <strong class="text-fuchsia-300 font-bold" id="show-box-title">Show Sala Estándar (40 Minutos)</strong>
         </div>
       </div>
     </section>
@@ -1540,15 +1540,13 @@
 
       const info = showDescriptions[minutes] || showDescriptions[40];
       const titleEl = document.getElementById("show-box-title");
-      const textEl = document.getElementById("show-box-text");
       const descEl = document.getElementById("show-box-desc");
 
-      if (titleEl && textEl) {
-        titleEl.textContent = info.title + ":";
+      if (titleEl) {
+        titleEl.textContent = info.title;
         titleEl.className = "text-fuchsia-300 font-bold";
-        textEl.textContent = info.desc;
       } else if (descEl) {
-        descEl.innerHTML = '<strong class="text-fuchsia-300 font-bold" id="show-box-title">' + info.title + ':</strong> <span id="show-box-text">' + info.desc + '</span>';
+        descEl.innerHTML = '<strong class="text-fuchsia-300 font-bold" id="show-box-title">' + info.title + '</strong>';
       }
     }
 
